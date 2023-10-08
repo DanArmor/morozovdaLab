@@ -12,7 +12,7 @@ public class Bank {
     private int userCount;
     private byte rating;
     private BigDecimal totalMoney;
-    private double interestRate;
+    private BigDecimal interestRate;
 
     private void initWithDefaults() {
         id = UUID.randomUUID();
@@ -120,11 +120,11 @@ public class Bank {
         this.totalMoney = totalMoney;
     }
 
-    public double getInterestRate() {
+    public BigDecimal getInterestRate() {
         return this.interestRate;
     }
 
-    public void setInterestRate(double interestRate) {
+    public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
     }
 
