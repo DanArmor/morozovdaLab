@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 enum BankAtmStatus {
-    NOT_WORKING
+    NOT_WORKING,
+    WORKING,
+    NO_MONEY
 }
 
 public class BankAtm {
