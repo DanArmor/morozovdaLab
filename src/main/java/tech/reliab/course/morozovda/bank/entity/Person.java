@@ -19,7 +19,7 @@ public class Person {
     }
 
     public Person(String name, LocalDate birthDate) {
-        this.id = UUID.randomUUID();
+        initWithDefaults();
         this.name = name;
         this.birthdDate = birthDate;
     }
