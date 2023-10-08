@@ -7,7 +7,7 @@ enum EmployeeJob {
     Worker
 }
 
-public class Employee extends User {
+public class Employee extends Person {
     private EmployeeJob job;
     private Bank bank;
     private boolean isWorkingFromHome;
