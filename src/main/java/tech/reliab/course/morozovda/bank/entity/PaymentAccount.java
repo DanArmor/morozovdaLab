@@ -3,7 +3,7 @@ package main.java.tech.reliab.course.morozovda.bank.entity;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-public class PaymentAccount {
+public class PaymentAccount extends Account {
     private BigDecimal balance;
 
     private void initWithDefaults() {
