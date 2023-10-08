@@ -23,7 +23,7 @@ public class Bank {
         userCount = 0;
         rating = 0;
         totalMoney = null;
-        interestRate = 0;
+        interestRate = null;
     }
 
     public Bank() {
