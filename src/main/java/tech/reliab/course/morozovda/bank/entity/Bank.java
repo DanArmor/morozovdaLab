@@ -22,7 +22,7 @@ public class Bank {
         employeeCount = 0;
         userCount = 0;
         rating = 0;
-        totalMoney = new BigDecimal("0");
+        totalMoney = null;
         interestRate = 0;
     }
 
