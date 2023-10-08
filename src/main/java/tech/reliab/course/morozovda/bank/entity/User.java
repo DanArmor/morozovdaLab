@@ -19,6 +19,7 @@ public class User {
     }
 
     public User(String name, LocalDate birthDate) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.birthdDate = birthDate;
     }
