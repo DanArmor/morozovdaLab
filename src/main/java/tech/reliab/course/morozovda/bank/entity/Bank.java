@@ -52,7 +52,7 @@ public class Bank {
                 ", officeCount='" + getOfficeCount() + "'" +
                 ", atmCount='" + getAtmCount() + "'" +
                 ", employeeCount='" + getEmployeeCount() + "'" +
-                ", clientCount='" + getclientCount() + "'" +
+                ", clientCount='" + getClientCount() + "'" +
                 ", rating='" + getRating() + "'" +
                 ", totalMoney='" + getTotalMoney() + "'" +
                 ", interestRate='" + getInterestRate() + "'" +
@@ -99,7 +99,7 @@ public class Bank {
         this.employeeCount = employeeCount;
     }
 
-    public int getclientCount() {
+    public int getClientCount() {
         return this.clientCount;
     }
 
