@@ -6,7 +6,7 @@ import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
-import tech.reliab.course.morozovda.bank.entity.User;
+import tech.reliab.course.morozovda.bank.entity.Client;
 
 public interface BankService {
     Bank create(Bank bank);
@@ -19,9 +19,9 @@ public interface BankService {
 
     boolean removeEmployee(Bank bank, Employee employee);
 
-    boolean addUser(Bank bank, User user);
+    boolean addclient(Bank bank, Client client);
 
-    boolean removeUser(Bank bank, User user);
+    boolean removeclient(Bank bank, Client client);
 
     BigDecimal calculateInterestRate(Bank bank);
 

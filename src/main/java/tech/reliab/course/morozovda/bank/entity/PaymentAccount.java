@@ -15,8 +15,8 @@ public class PaymentAccount extends Account {
         initWithDefaults();
     }
 
-    public PaymentAccount(UUID id, User user, Bank bank, BigDecimal balance) {
-        super(id, user, bank);
+    public PaymentAccount(UUID id, Client client, Bank bank, BigDecimal balance) {
+        super(id, client, bank);
         this.balance = balance;
     }
 

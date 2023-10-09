@@ -32,10 +32,10 @@ public class CreditAccount extends Account {
         initWithDefaults();
     }
 
-    public CreditAccount(User user, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
+    public CreditAccount(Client client, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
             BigDecimal creditAmount, BigDecimal remainingCreditAmount, BigDecimal montlyPayment,
             BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
-        super(user, bank);
+        super(client, bank);
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.monthCount = monthCount;
@@ -47,10 +47,10 @@ public class CreditAccount extends Account {
         this.paymentAccount = paymentAccount;
     }
 
-    public CreditAccount(UUID id, User user, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
+    public CreditAccount(UUID id, Client client, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
             BigDecimal creditAmount, BigDecimal remainingCreditAmount, BigDecimal montlyPayment,
             BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
-        super(id, user, bank);
+        super(id, client, bank);
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.monthCount = monthCount;

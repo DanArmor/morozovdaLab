@@ -4,12 +4,12 @@ import java.util.UUID;
 
 public class Account {
     protected UUID id;
-    protected User user;
+    protected Client client;
     protected Bank bank;
 
     private void initWithDefaults() {
         id = UUID.randomUUID();
-        user = null;
+        client = null;
         bank = null;
     }
 
@@ -17,14 +17,14 @@ public class Account {
         initWithDefaults();
     }
 
-    public Account(User user, Bank bank) {
+    public Account(Client client, Bank bank) {
         initWithDefaults();
         this.bank = bank;
     }
 
-    public Account(UUID id, User user, Bank bank) {
+    public Account(UUID id, Client client, Bank bank) {
         this.id = id;
-        this.user = user;
+        this.client = client;
         this.bank = bank;
     }
 
@@ -32,7 +32,7 @@ public class Account {
     public String toString() {
         return "{" +
                 " id='" + getId() + "'" +
-                ", user='" + getUser() + "'" +
+                ", client='" + getClient() + "'" +
                 ", bank='" + getBank() + "'" +
                 "}";
     }
@@ -45,12 +45,12 @@ public class Account {
         this.id = id;
     }
 
-    public User getUser() {
-        return this.user;
+    public Client getClient() {
+        return this.client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     public Bank getBank() {

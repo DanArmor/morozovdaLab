@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-public class User extends Person {
+public class Client extends Person {
     private String placeOfWork;
     private BigDecimal monthlyIncome;
     private Bank bank;
     private int creditRating;
-    public static final double MAX_USER_MONTHLY_INCOME = 10000;
+    public static final double MAX_client_MONTHLY_INCOME = 10000;
 
     private void initWithDefaults() {
         placeOfWork = "No place of work";
@@ -18,11 +18,11 @@ public class User extends Person {
         creditRating = 0;
     }
 
-    public User() {
+    public Client() {
         initWithDefaults();
     }
 
-    public User(UUID id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
+    public Client(UUID id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             int creditRating) {
         this.id = id;
         this.name = name;

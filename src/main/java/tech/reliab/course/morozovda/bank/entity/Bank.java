@@ -9,7 +9,7 @@ public class Bank {
     private int officeCount;
     private int atmCount;
     private int employeeCount;
-    private int userCount;
+    private int clientCount;
     private byte rating;
     private BigDecimal totalMoney;
     private BigDecimal interestRate;
@@ -23,7 +23,7 @@ public class Bank {
         officeCount = 0;
         atmCount = 0;
         employeeCount = 0;
-        userCount = 0;
+        clientCount = 0;
         rating = 0;
         totalMoney = null;
         interestRate = null;
@@ -52,7 +52,7 @@ public class Bank {
                 ", officeCount='" + getOfficeCount() + "'" +
                 ", atmCount='" + getAtmCount() + "'" +
                 ", employeeCount='" + getEmployeeCount() + "'" +
-                ", clientCount='" + getUserCount() + "'" +
+                ", clientCount='" + getclientCount() + "'" +
                 ", rating='" + getRating() + "'" +
                 ", totalMoney='" + getTotalMoney() + "'" +
                 ", interestRate='" + getInterestRate() + "'" +
@@ -99,12 +99,12 @@ public class Bank {
         this.employeeCount = employeeCount;
     }
 
-    public int getUserCount() {
-        return this.userCount;
+    public int getclientCount() {
+        return this.clientCount;
     }
 
-    public void setUserCount(int clientCount) {
-        this.userCount = clientCount;
+    public void setclientCount(int clientCount) {
+        this.clientCount = clientCount;
     }
 
     public byte getRating() {
