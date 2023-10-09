@@ -13,7 +13,7 @@ public class PaymentAccount extends Account {
 
     public PaymentAccount(PaymentAccount paymentAccount) {
         super(paymentAccount.id, paymentAccount.client, paymentAccount.bank);
-        this.balance = new BigDecimal(paymentAccount.balance.toString());
+        this.balance = paymentAccount.balance;
     }
 
     public PaymentAccount(UUID id, Client client, Bank bank, BigDecimal balance) {

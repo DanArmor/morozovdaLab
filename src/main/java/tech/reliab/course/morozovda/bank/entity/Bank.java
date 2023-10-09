@@ -29,8 +29,8 @@ public class Bank {
         this.employeeCount = bank.employeeCount;
         this.clientCount = bank.clientCount;
         this.rating = bank.rating;
-        this.totalMoney = new BigDecimal(bank.totalMoney.toString());
-        this.interestRate = new BigDecimal(bank.interestRate.toString());
+        this.totalMoney = bank.totalMoney;
+        this.interestRate = bank.interestRate;
     }
 
     public Bank(String name) {

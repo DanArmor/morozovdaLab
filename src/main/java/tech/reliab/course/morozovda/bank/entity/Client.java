@@ -18,7 +18,7 @@ public class Client extends Person {
     public Client(Client client) {
         super(client.id, client.name, client.birthdDate);
         this.placeOfWork = client.placeOfWork;
-        this.monthlyIncome = new BigDecimal(client.monthlyIncome.toString());
+        this.monthlyIncome = client.monthlyIncome;
         this.bank = new Bank(client.bank);
         this.creditRating = client.creditRating;
     }

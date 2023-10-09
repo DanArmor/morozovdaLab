@@ -32,8 +32,8 @@ public class BankAtm {
         this.employee = new Employee(bankAtm.employee);
         this.isCashWithdrawalAvailable = bankAtm.isCashWithdrawalAvailable;
         this.isCashDepositAvailable = bankAtm.isCashDepositAvailable;
-        this.totalMoney = new BigDecimal(bankAtm.totalMoney.toString());
-        this.maintenanceCost = new BigDecimal(bankAtm.maintenanceCost.toString());
+        this.totalMoney = bankAtm.totalMoney;
+        this.maintenanceCost = bankAtm.maintenanceCost;
     }
 
     public BankAtm() {

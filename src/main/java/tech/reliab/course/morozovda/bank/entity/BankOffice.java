@@ -51,8 +51,8 @@ public class BankOffice {
         this.isCreditAvailable = bankOffice.isCreditAvailable;
         this.isCashWithdrawalAvailable = bankOffice.isCashWithdrawalAvailable;
         this.isCashDepositAvailable = bankOffice.isCashDepositAvailable;
-        this.totalMoney = new BigDecimal(bankOffice.totalMoney.toString());
-        this.rentPrice = new BigDecimal(bankOffice.rentPrice.toString());
+        this.totalMoney = bankOffice.totalMoney;
+        this.rentPrice = bankOffice.rentPrice;
     }
 
     @Override

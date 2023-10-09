@@ -29,7 +29,7 @@ public class Employee extends Person {
         this.isWorkingFromHome = employee.isWorkingFromHome;
         this.bankOffice = new BankOffice(employee.bankOffice);
         this.isCreditAvailable = employee.isCreditAvailable;
-        this.salary = new BigDecimal(employee.salary.toString());
+        this.salary = employee.salary;
     }
 
     public Employee(String name, LocalDate birthDate, Job job, Bank bank, boolean isWorkingFromHome,

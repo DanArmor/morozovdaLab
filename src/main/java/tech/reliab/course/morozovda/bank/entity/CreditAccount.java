@@ -25,10 +25,10 @@ public class CreditAccount extends Account {
         this.dateStart = creditAccount.dateStart;
         this.dateEnd = creditAccount.dateEnd;
         this.monthCount = creditAccount.monthCount;
-        this.creditAmount = new BigDecimal(creditAccount.creditAmount.toString());
-        this.remainingCreditAmount = new BigDecimal(creditAccount.remainingCreditAmount.toString());
-        this.montlyPayment = new BigDecimal(creditAccount.montlyPayment.toString());
-        this.interestRate = new BigDecimal(creditAccount.interestRate.toString());
+        this.creditAmount = creditAccount.creditAmount;
+        this.remainingCreditAmount = creditAccount.remainingCreditAmount;
+        this.montlyPayment = creditAccount.montlyPayment;
+        this.interestRate = creditAccount.interestRate;
         this.employee = new Employee(creditAccount.employee);
         this.paymentAccount = new PaymentAccount(creditAccount.paymentAccount);
     }
