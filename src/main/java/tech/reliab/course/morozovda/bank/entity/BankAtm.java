@@ -3,17 +3,17 @@ package tech.reliab.course.morozovda.bank.entity;
 import java.math.BigDecimal;
 import java.util.UUID;
 
-enum BankAtmStatus {
-    NOT_WORKING,
-    WORKING,
-    NO_MONEY
-}
-
 public class BankAtm {
+    enum Status {
+        NOT_WORKING,
+        WORKING,
+        NO_MONEY
+    }
+
     private UUID id;
     private String name;
     private String address;
-    private BankAtmStatus status;
+    private Status status;
     private Bank bank;
     private BankOffice bankOffice;
     private Employee employee;
@@ -26,7 +26,7 @@ public class BankAtm {
         id = UUID.randomUUID();
         name = "No name";
         address = "No address";
-        status = BankAtmStatus.NOT_WORKING;
+        status = Status.NOT_WORKING;
         bank = null;
         bankOffice = null;
         employee = null;
@@ -46,7 +46,7 @@ public class BankAtm {
         this.address = address;
     }
 
-    public BankAtm(UUID id, String name, String address, BankAtmStatus status, Bank bank, BankOffice bankOffice,
+    public BankAtm(UUID id, String name, String address, Status status, Bank bank, BankOffice bankOffice,
             Employee employee, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable, BigDecimal totalMoney,
             BigDecimal maintenanceCost) {
         this.id = id;
@@ -103,11 +103,11 @@ public class BankAtm {
         this.address = address;
     }
 
-    public BankAtmStatus getStatus() {
+    public Status getStatus() {
         return this.status;
     }
 
-    public void setStatus(BankAtmStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
