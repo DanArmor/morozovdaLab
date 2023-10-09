@@ -1,4 +1,4 @@
-package main.java.tech.reliab.course.morozovda.bank.entity;
+package tech.reliab.course.morozovda.bank.entity;
 
 import java.time.LocalDate;
 import java.util.UUID;

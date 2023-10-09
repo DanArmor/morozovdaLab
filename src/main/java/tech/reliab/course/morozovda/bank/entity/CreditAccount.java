@@ -1,4 +1,4 @@
-package main.java.tech.reliab.course.morozovda.bank.entity;
+package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

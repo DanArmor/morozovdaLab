@@ -1,4 +1,4 @@
-package reliab.course.morozovda.bank;
+package tech.reliab.course.morozovda.bank;
 
 public class Main {
     public static void main(String[] args) {
