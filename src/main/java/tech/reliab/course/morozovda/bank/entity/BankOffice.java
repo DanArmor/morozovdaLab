@@ -40,6 +40,21 @@ public class BankOffice {
         this.rentPrice = rentPrice;
     }
 
+    public BankOffice(BankOffice bankOffice) {
+        this.id = UUID.fromString(bankOffice.id.toString());
+        this.name = bankOffice.name;
+        this.address = bankOffice.address;
+        this.bank = new Bank(bankOffice.bank);
+        this.isWorking = bankOffice.isWorking;
+        this.isAtmPlaceable = bankOffice.isAtmPlaceable;
+        this.atmCount = bankOffice.atmCount;
+        this.isCreditAvailable = bankOffice.isCreditAvailable;
+        this.isCashWithdrawalAvailable = bankOffice.isCashWithdrawalAvailable;
+        this.isCashDepositAvailable = bankOffice.isCashDepositAvailable;
+        this.totalMoney = new BigDecimal(bankOffice.totalMoney.toString());
+        this.rentPrice = new BigDecimal(bankOffice.rentPrice.toString());
+    }
+
     @Override
     public String toString() {
         return "{" +

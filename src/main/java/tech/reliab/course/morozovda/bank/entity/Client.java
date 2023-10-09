@@ -15,6 +15,14 @@ public class Client extends Person {
         initWithDefaults();
     }
 
+    public Client(Client client) {
+        super(client.id, client.name, client.birthdDate);
+        this.placeOfWork = client.placeOfWork;
+        this.monthlyIncome = new BigDecimal(client.monthlyIncome.toString());
+        this.bank = new Bank(client.bank);
+        this.creditRating = client.creditRating;
+    }
+
     public Client(UUID id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             int creditRating) {
         this.id = id;

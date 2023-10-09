@@ -12,6 +12,12 @@ public class Person {
         initWithDefaults();
     }
 
+    public Person(Person person) {
+        this.id = UUID.fromString(person.id.toString());
+        this.name = person.name;
+        this.birthdDate = person.birthdDate;
+    }
+
     public Person(String name, LocalDate birthDate) {
         initWithDefaults();
         this.name = name;

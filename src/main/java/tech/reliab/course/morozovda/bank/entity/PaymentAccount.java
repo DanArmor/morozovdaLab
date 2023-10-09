@@ -11,6 +11,11 @@ public class PaymentAccount extends Account {
         initWithDefaults();
     }
 
+    public PaymentAccount(PaymentAccount paymentAccount) {
+        super(paymentAccount.id, paymentAccount.client, paymentAccount.bank);
+        this.balance = new BigDecimal(paymentAccount.balance.toString());
+    }
+
     public PaymentAccount(UUID id, Client client, Bank bank, BigDecimal balance) {
         super(id, client, bank);
         this.balance = balance;

@@ -20,6 +20,19 @@ public class CreditAccount extends Account {
         initWithDefaults();
     }
 
+    public CreditAccount(CreditAccount creditAccount) {
+        super(creditAccount.id, creditAccount.client, creditAccount.bank);
+        this.dateStart = creditAccount.dateStart;
+        this.dateEnd = creditAccount.dateEnd;
+        this.monthCount = creditAccount.monthCount;
+        this.creditAmount = new BigDecimal(creditAccount.creditAmount.toString());
+        this.remainingCreditAmount = new BigDecimal(creditAccount.remainingCreditAmount.toString());
+        this.montlyPayment = new BigDecimal(creditAccount.montlyPayment.toString());
+        this.interestRate = new BigDecimal(creditAccount.interestRate.toString());
+        this.employee = new Employee(creditAccount.employee);
+        this.paymentAccount = new PaymentAccount(creditAccount.paymentAccount);
+    }
+
     public CreditAccount(Client client, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
             BigDecimal creditAmount, BigDecimal remainingCreditAmount, BigDecimal montlyPayment,
             BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {

@@ -22,6 +22,20 @@ public class BankAtm {
     private BigDecimal totalMoney;
     private BigDecimal maintenanceCost;
 
+    public BankAtm(BankAtm bankAtm) {
+        this.id = UUID.fromString(bankAtm.id.toString());
+        this.name = bankAtm.name;
+        this.address = bankAtm.address;
+        this.status = bankAtm.status;
+        this.bank = new Bank(bankAtm.bank);
+        this.bankOffice = new BankOffice(bankAtm.bankOffice);
+        this.employee = new Employee(bankAtm.employee);
+        this.isCashWithdrawalAvailable = bankAtm.isCashWithdrawalAvailable;
+        this.isCashDepositAvailable = bankAtm.isCashDepositAvailable;
+        this.totalMoney = new BigDecimal(bankAtm.totalMoney.toString());
+        this.maintenanceCost = new BigDecimal(bankAtm.maintenanceCost.toString());
+    }
+
     public BankAtm() {
         initWithDefaults();
     }

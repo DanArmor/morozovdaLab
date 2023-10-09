@@ -16,6 +16,16 @@ public class Employee extends Person {
         initWithDefaults();
     }
 
+    public Employee(Employee employee) {
+        super(employee.id, employee.name, employee.birthdDate);
+        this.job = employee.job;
+        this.bank = new Bank(employee.bank);
+        this.isWorkingFromHome = employee.isWorkingFromHome;
+        this.bankOffice = new BankOffice(employee.bankOffice);
+        this.isCreditAvailable = employee.isCreditAvailable;
+        this.salary = new BigDecimal(employee.salary.toString());
+    }
+
     public Employee(String name, LocalDate birthDate, EmployeeJob job, Bank bank, boolean isWorkingFromHome,
             BankOffice bankOffice, boolean isCreditAvailable, BigDecimal salary) {
         super(name, birthDate);

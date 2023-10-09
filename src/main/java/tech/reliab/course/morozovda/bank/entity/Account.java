@@ -22,6 +22,12 @@ public class Account {
         this.bank = bank;
     }
 
+    public Account(Account account) {
+        this.id = UUID.fromString(account.id.toString());
+        this.client = new Client(account.client);
+        this.bank = new Bank(account.bank);
+    }
+
     @Override
     public String toString() {
         return "{" +

@@ -21,6 +21,18 @@ public class Bank {
         initWithDefaults();
     }
 
+    public Bank(Bank bank) {
+        this.id = UUID.fromString(bank.id.toString());
+        this.name = bank.name;
+        this.officeCount = bank.officeCount;
+        this.atmCount = bank.atmCount;
+        this.employeeCount = bank.employeeCount;
+        this.clientCount = bank.clientCount;
+        this.rating = bank.rating;
+        this.totalMoney = new BigDecimal(bank.totalMoney.toString());
+        this.interestRate = new BigDecimal(bank.interestRate.toString());
+    }
+
     public Bank(String name) {
         initWithDefaults();
         this.name = name;
