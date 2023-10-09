@@ -24,7 +24,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addclient(Bank bank, Client client) {
+    public boolean addClient(Bank bank, Client client) {
         // TODO Auto-generated method stub
         return false;
     }
@@ -66,7 +66,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean removeclient(Bank bank, Client client) {
+    public boolean removeClient(Bank bank, Client client) {
         // TODO Auto-generated method stub
         return false;
     }

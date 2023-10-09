@@ -19,9 +19,9 @@ public interface BankService {
 
     boolean removeEmployee(Bank bank, Employee employee);
 
-    boolean addclient(Bank bank, Client client);
+    boolean addClient(Bank bank, Client client);
 
-    boolean removeclient(Bank bank, Client client);
+    boolean removeClient(Bank bank, Client client);
 
     BigDecimal calculateInterestRate(Bank bank);
 
