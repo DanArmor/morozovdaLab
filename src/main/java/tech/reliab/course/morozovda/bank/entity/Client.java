@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Client extends Person {
-    public static final BigDecimal MAX_client_MONTHLY_INCOME = new BigDecimal("10000");
+    public static final BigDecimal MAX_MONTHLY_INCOME = new BigDecimal("10000");
     private String placeOfWork;
     private BigDecimal monthlyIncome;
     private Bank bank;
