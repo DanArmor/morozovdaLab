@@ -9,7 +9,7 @@ public class Client extends Person {
     private String placeOfWork;
     private BigDecimal monthlyIncome;
     private Bank bank;
-    private int creditRating;
+    private BigDecimal creditRating;
 
     public Client() {
         initWithDefaults();
@@ -24,7 +24,7 @@ public class Client extends Person {
     }
 
     public Client(UUID id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
-            int creditRating) {
+            BigDecimal creditRating) {
         this.id = id;
         this.name = name;
         this.birthdDate = birthDate;
@@ -68,11 +68,11 @@ public class Client extends Person {
         this.bank = bank;
     }
 
-    public int getCreditRating() {
+    public BigDecimal getCreditRating() {
         return this.creditRating;
     }
 
-    public void setCreditRating(int creditRating) {
+    public void setCreditRating(BigDecimal creditRating) {
         this.creditRating = creditRating;
     }
 
@@ -80,7 +80,7 @@ public class Client extends Person {
         placeOfWork = "No place of work";
         monthlyIncome = null;
         bank = null;
-        creditRating = 0;
+        creditRating = new BigDecimal("0");
     }
 
 }
