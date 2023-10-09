@@ -71,7 +71,7 @@ public class CreditAccount extends Account {
                 ", monthCount='" + getMonthCount() + "'" +
                 ", creditAmount='" + getCreditAmount() + "'" +
                 ", remainingCreditAmount='" + getRemainingCreditAmount() + "'" +
-                ", montlyPayment='" + getMontlyPayment() + "'" +
+                ", montlyPayment='" + getMonthlyPayment() + "'" +
                 ", interestRate='" + getInterestRate() + "'" +
                 ", employee='" + getEmployee() + "'" +
                 ", paymentAccount='" + getPaymentAccount() + "'" +
@@ -118,7 +118,7 @@ public class CreditAccount extends Account {
         this.remainingCreditAmount = remainingCreditAmount;
     }
 
-    public BigDecimal getMontlyPayment() {
+    public BigDecimal getMonthlyPayment() {
         return this.montlyPayment;
     }
 
