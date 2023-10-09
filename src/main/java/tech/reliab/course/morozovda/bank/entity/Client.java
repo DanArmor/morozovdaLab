@@ -23,6 +23,17 @@ public class Client extends Person {
         this.creditRating = client.creditRating;
     }
 
+    public Client(String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
+            BigDecimal creditRating) {
+        initWithDefaults();
+        this.name = name;
+        this.birthdDate = birthDate;
+        this.placeOfWork = placeOfWork;
+        this.monthlyIncome = monthlyIncome;
+        this.bank = bank;
+        this.creditRating = creditRating;
+    }
+
     public Client(UUID id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             BigDecimal creditRating) {
         this.id = id;
@@ -37,11 +48,12 @@ public class Client extends Person {
     @Override
     public String toString() {
         return "{" +
-                " placeOfWork='" + getPlaceOfWork() + "'" +
-                ", monthlyIncome='" + getMonthlyIncome() + "'" +
-                ", bank='" + getBank() + "'" +
-                ", creditRating='" + getCreditRating() + "'" +
-                "}";
+                "\n person='" + super.toString() + "'" +
+                ",\n placeOfWork='" + getPlaceOfWork() + "'" +
+                ",\n monthlyIncome='" + getMonthlyIncome() + "'" +
+                ",\n bank='" + getBank() + "'" +
+                ",\n creditRating='" + getCreditRating() + "'" +
+                "\n}";
     }
 
     public String getPlaceOfWork() {
@@ -78,7 +90,7 @@ public class Client extends Person {
 
     private void initWithDefaults() {
         placeOfWork = "No place of work";
-        monthlyIncome = null;
+        monthlyIncome = new BigDecimal("0");
         bank = null;
         creditRating = new BigDecimal("0");
     }

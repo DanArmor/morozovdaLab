@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public class Employee extends Person {
 
-    enum Job {
+    public enum Job {
         Manager,
         Worker
     }
@@ -46,13 +46,14 @@ public class Employee extends Person {
     @Override
     public String toString() {
         return "{" +
-                " job='" + getJob() + "'" +
-                ", bank='" + getBank() + "'" +
-                ", isWorkingFromHome='" + isIsWorkingFromHome() + "'" +
-                ", bankOffice='" + getBankOffice() + "'" +
-                ", isCreditAvailable='" + isIsCreditAvailable() + "'" +
-                ", salary='" + getSalary() + "'" +
-                "}";
+                "\n person='" + super.toString() + "'" +
+                ",\n job='" + getJob() + "'" +
+                ",\n bank='" + getBank() + "'" +
+                ",\n isWorkingFromHome='" + isIsWorkingFromHome() + "'" +
+                ",\n bankOffice='" + getBankOffice() + "'" +
+                ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +
+                ",\n salary='" + getSalary() + "'" +
+                "\n}";
     }
 
     public Job getJob() {
@@ -117,7 +118,7 @@ public class Employee extends Person {
         isWorkingFromHome = false;
         bankOffice = null;
         isCreditAvailable = false;
-        salary = null;
+        salary = new BigDecimal("0");
     }
 
 }

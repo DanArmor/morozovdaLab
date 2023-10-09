@@ -66,16 +66,17 @@ public class CreditAccount extends Account {
     @Override
     public String toString() {
         return "{" +
-                " dateStart='" + getDateStart() + "'" +
-                ", dateEnd='" + getDateEnd() + "'" +
-                ", monthCount='" + getMonthCount() + "'" +
-                ", creditAmount='" + getCreditAmount() + "'" +
-                ", remainingCreditAmount='" + getRemainingCreditAmount() + "'" +
-                ", montlyPayment='" + getMonthlyPayment() + "'" +
-                ", interestRate='" + getInterestRate() + "'" +
-                ", employee='" + getEmployee() + "'" +
-                ", paymentAccount='" + getPaymentAccount() + "'" +
-                "}";
+                "\n account='" + super.toString() + "'" +
+                ",\n dateStart='" + getDateStart() + "'" +
+                ",\n dateEnd='" + getDateEnd() + "'" +
+                ",\n monthCount='" + getMonthCount() + "'" +
+                ",\n creditAmount='" + getCreditAmount() + "'" +
+                ",\n remainingCreditAmount='" + getRemainingCreditAmount() + "'" +
+                ",\n montlyPayment='" + getMonthlyPayment() + "'" +
+                ",\n interestRate='" + getInterestRate() + "'" +
+                ",\n employee='" + getEmployee() + "'" +
+                ",\n paymentAccount='" + getPaymentAccount() + "'" +
+                "\n}";
     }
 
     public LocalDate getDateStart() {
@@ -154,10 +155,10 @@ public class CreditAccount extends Account {
         dateStart = null;
         dateEnd = null;
         monthCount = 0;
-        creditAmount = null;
-        remainingCreditAmount = null;
-        montlyPayment = null;
-        interestRate = null;
+        creditAmount = new BigDecimal("0");
+        remainingCreditAmount = new BigDecimal("0");
+        montlyPayment = new BigDecimal("0");
+        interestRate = new BigDecimal("0");
         employee = null;
         paymentAccount = null;
     }

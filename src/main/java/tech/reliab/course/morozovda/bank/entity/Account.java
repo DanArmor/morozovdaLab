@@ -31,10 +31,10 @@ public class Account {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", client='" + getClient() + "'" +
-                ", bank='" + getBank() + "'" +
-                "}";
+                "\n id='" + getId() + "'" +
+                ",\n client='" + getClient() + "'" +
+                ",\n bank='" + getBank() + "'" +
+                "\n}";
     }
 
     public UUID getId() {

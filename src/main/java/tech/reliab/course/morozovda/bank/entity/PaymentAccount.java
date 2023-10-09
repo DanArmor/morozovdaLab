@@ -16,6 +16,11 @@ public class PaymentAccount extends Account {
         this.balance = paymentAccount.balance;
     }
 
+    public PaymentAccount(Client client, Bank bank, BigDecimal balance) {
+        super(client, bank);
+        this.balance = balance;
+    }
+
     public PaymentAccount(UUID id, Client client, Bank bank, BigDecimal balance) {
         super(id, client, bank);
         this.balance = balance;
@@ -24,8 +29,9 @@ public class PaymentAccount extends Account {
     @Override
     public String toString() {
         return "{" +
-                " balance='" + getBalance() + "'" +
-                "}";
+                "\n account='" + super.toString() + "'" +
+                ",\n balance='" + getBalance() + "'" +
+                "\n}";
     }
 
     public BigDecimal getBalance() {

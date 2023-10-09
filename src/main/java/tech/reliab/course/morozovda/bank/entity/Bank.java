@@ -47,16 +47,16 @@ public class Bank {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
-                ", officeCount='" + getOfficeCount() + "'" +
-                ", atmCount='" + getAtmCount() + "'" +
-                ", employeeCount='" + getEmployeeCount() + "'" +
-                ", clientCount='" + getClientCount() + "'" +
-                ", rating='" + getRating() + "'" +
-                ", totalMoney='" + getTotalMoney() + "'" +
-                ", interestRate='" + getInterestRate() + "'" +
-                "}";
+                "\n id='" + getId() + "'" +
+                ",\n name='" + getName() + "'" +
+                ",\n officeCount='" + getOfficeCount() + "'" +
+                ",\n atmCount='" + getAtmCount() + "'" +
+                ",\n employeeCount='" + getEmployeeCount() + "'" +
+                ",\n clientCount='" + getClientCount() + "'" +
+                ",\n rating='" + getRating() + "'" +
+                ",\n totalMoney='" + getTotalMoney() + "'" +
+                ",\n interestRate='" + getInterestRate() + "'" +
+                "\n}";
     }
 
     public UUID getId() {
@@ -139,8 +139,8 @@ public class Bank {
         employeeCount = 0;
         clientCount = 0;
         rating = 0;
-        totalMoney = null;
-        interestRate = null;
+        totalMoney = new BigDecimal("0");
+        interestRate = new BigDecimal("0");
     }
 
 }

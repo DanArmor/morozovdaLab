@@ -40,6 +40,23 @@ public class BankOffice {
         this.rentPrice = rentPrice;
     }
 
+    public BankOffice(String name, String address, Bank bank, boolean isWorking, boolean isAtmPlaceable,
+            int atmCount, boolean isCreditAvailable, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable,
+            BigDecimal totalMoney, BigDecimal rentPrice) {
+        initWithDefaults();
+        this.name = name;
+        this.address = address;
+        this.bank = bank;
+        this.isWorking = isWorking;
+        this.isAtmPlaceable = isAtmPlaceable;
+        this.atmCount = atmCount;
+        this.isCreditAvailable = isCreditAvailable;
+        this.isCashWithdrawalAvailable = isCashWithdrawalAvailable;
+        this.isCashDepositAvailable = isCashDepositAvailable;
+        this.totalMoney = totalMoney;
+        this.rentPrice = rentPrice;
+    }
+
     public BankOffice(BankOffice bankOffice) {
         this.id = UUID.fromString(bankOffice.id.toString());
         this.name = bankOffice.name;
@@ -58,19 +75,19 @@ public class BankOffice {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
-                ", address='" + getAddress() + "'" +
-                ", bank='" + getBank() + "'" +
-                ", isWorking='" + isIsWorking() + "'" +
-                ", isAtmPlaceable='" + isIsAtmPlaceable() + "'" +
-                ", atmCount='" + getAtmCount() + "'" +
-                ", isCreditAvailable='" + isIsCreditAvailable() + "'" +
-                ", isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
-                ", isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
-                ", totalMoney='" + getTotalMoney() + "'" +
-                ", rentPrice='" + getRentPrice() + "'" +
-                "}";
+                "\n id='" + getId() + "'" +
+                ",\n name='" + getName() + "'" +
+                ",\n address='" + getAddress() + "'" +
+                ",\n bank='" + getBank() + "'" +
+                ",\n isWorking='" + isIsWorking() + "'" +
+                ",\n isAtmPlaceable='" + isIsAtmPlaceable() + "'" +
+                ",\n atmCount='" + getAtmCount() + "'" +
+                ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +
+                ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
+                ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
+                ",\n totalMoney='" + getTotalMoney() + "'" +
+                ",\n rentPrice='" + getRentPrice() + "'" +
+                "\n}";
     }
 
     public UUID getId() {
@@ -200,8 +217,8 @@ public class BankOffice {
         isCreditAvailable = false;
         isCashWithdrawalAvailable = false;
         isCashDepositAvailable = false;
-        totalMoney = null;
-        rentPrice = null;
+        totalMoney = new BigDecimal("0");
+        rentPrice = new BigDecimal("0");
     }
 
 }

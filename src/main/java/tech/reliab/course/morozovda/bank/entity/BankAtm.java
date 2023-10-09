@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class BankAtm {
-    enum Status {
+    public enum Status {
         NOT_WORKING,
         WORKING,
         NO_MONEY
@@ -46,6 +46,22 @@ public class BankAtm {
         this.address = address;
     }
 
+    public BankAtm(String name, String address, Status status, Bank bank, BankOffice bankOffice,
+            Employee employee, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable, BigDecimal totalMoney,
+            BigDecimal maintenanceCost) {
+        initWithDefaults();
+        this.name = name;
+        this.address = address;
+        this.status = status;
+        this.bank = bank;
+        this.bankOffice = bankOffice;
+        this.employee = employee;
+        this.isCashWithdrawalAvailable = isCashWithdrawalAvailable;
+        this.isCashDepositAvailable = isCashDepositAvailable;
+        this.totalMoney = totalMoney;
+        this.maintenanceCost = maintenanceCost;
+    }
+
     public BankAtm(UUID id, String name, String address, Status status, Bank bank, BankOffice bankOffice,
             Employee employee, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable, BigDecimal totalMoney,
             BigDecimal maintenanceCost) {
@@ -65,18 +81,18 @@ public class BankAtm {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
-                ", address='" + getAddress() + "'" +
-                ", status='" + getStatus() + "'" +
-                ", bank='" + getBank() + "'" +
-                ", bankOffice='" + getBankOffice() + "'" +
-                ", employee='" + getEmployee() + "'" +
-                ", isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
-                ", isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
-                ", totalMoney='" + getTotalMoney() + "'" +
-                ", maintenanceCost='" + getMaintenanceCost() + "'" +
-                "}";
+                "\n id='" + getId() + "'" +
+                ",\n name='" + getName() + "'" +
+                ",\n address='" + getAddress() + "'" +
+                ",\n status='" + getStatus() + "'" +
+                ",\n bank='" + getBank() + "'" +
+                ",\n bankOffice='" + getBankOffice() + "'" +
+                ",\n employee='" + getEmployee() + "'" +
+                ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
+                ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
+                ",\n totalMoney='" + getTotalMoney() + "'" +
+                ",\n maintenanceCost='" + getMaintenanceCost() + "'" +
+                "\n}";
     }
 
     public UUID getId() {
@@ -185,8 +201,8 @@ public class BankAtm {
         employee = null;
         isCashWithdrawalAvailable = false;
         isCashDepositAvailable = false;
-        totalMoney = null;
-        maintenanceCost = null;
+        totalMoney = new BigDecimal("0");
+        maintenanceCost = new BigDecimal("0");
     }
 
 }

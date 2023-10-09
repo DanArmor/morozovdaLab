@@ -33,10 +33,10 @@ public class Person {
     @Override
     public String toString() {
         return "{" +
-                " id='" + getId() + "'" +
-                ", name='" + getName() + "'" +
-                ", birthdDate='" + getBirthdDate() + "'" +
-                "}";
+                "\n id='" + getId() + "'" +
+                ",\n name='" + getName() + "'" +
+                ",\n birthdDate='" + getBirthdDate() + "'" +
+                "\n}";
     }
 
     public UUID getId() {
