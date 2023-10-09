@@ -8,14 +8,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee create(Employee employee) {
-        // TODO Auto-generated method stub
-        return null;
+        if (employee == null) {
+            return null;
+        }
+
+        if (employee.getSalary().signum() < 0) {
+            System.out.println("Error: Employee - salary must be non-negative");
+            return null;
+        }
+
+        // TODO: Добавить механизм проверки на имеющийся офис и добавление в офис
+
+        return new Employee(employee);
     }
 
     @Override
     public boolean transferEmployee(Employee employee, BankOffice bankOffice) {
-        // TODO Auto-generated method stub
-        return false;
+        // TODO: Добавить механизм перевода сотрудника в новый офис
+
+        return true;
     }
-    
+
 }
