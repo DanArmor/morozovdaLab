@@ -4,7 +4,13 @@ import java.time.LocalDate;
 import java.math.BigDecimal;
 
 public class Employee extends Person {
-    private EmployeeJob job;
+
+    enum Job {
+        Manager,
+        Worker
+    }
+
+    private Job job;
     private Bank bank;
     private boolean isWorkingFromHome;
     private BankOffice bankOffice;
@@ -26,7 +32,7 @@ public class Employee extends Person {
         this.salary = new BigDecimal(employee.salary.toString());
     }
 
-    public Employee(String name, LocalDate birthDate, EmployeeJob job, Bank bank, boolean isWorkingFromHome,
+    public Employee(String name, LocalDate birthDate, Job job, Bank bank, boolean isWorkingFromHome,
             BankOffice bankOffice, boolean isCreditAvailable, BigDecimal salary) {
         super(name, birthDate);
         this.job = job;
@@ -49,11 +55,11 @@ public class Employee extends Person {
                 "}";
     }
 
-    public EmployeeJob getJob() {
+    public Job getJob() {
         return this.job;
     }
 
-    public void setJob(EmployeeJob job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 
@@ -114,9 +120,4 @@ public class Employee extends Person {
         salary = null;
     }
 
-}
-
-enum EmployeeJob {
-    Manager,
-    Worker
 }
