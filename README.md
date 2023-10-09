@@ -4,4 +4,4 @@
 
 #### Лабораторная №1
 
-Ветка `lab1`
+Ветка [`lab1`](https://github.com/DanArmor/morozovdaLab/tree/lab1)
