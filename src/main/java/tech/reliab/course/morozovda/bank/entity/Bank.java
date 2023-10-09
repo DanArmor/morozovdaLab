@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Bank {
-    public static final byte MAX_BANK_RATING = 100;
-    public static final double MAX_BANK_TOTAL_MONEY = 1000000;
-    public static final double MAX_BANK_INTEREST_RATE = 20;
+    public static final BigDecimal MAX_BANK_RATING = new BigDecimal("100");
+    public static final BigDecimal MAX_BANK_TOTAL_MONEY = new BigDecimal("1000000");
+    public static final BigDecimal MAX_BANK_INTEREST_RATE = new BigDecimal("20");
     private UUID id;
     private String name;
     private int officeCount;
