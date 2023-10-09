@@ -14,17 +14,17 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         }
 
         if (creditAccount.getMonthCount() < 1) {
-            System.out.println("Error: CreditAccount - monthCount must be at least 1");
+            System.err.println("Error: CreditAccount - monthCount must be at least 1");
             return null;
         }
 
         if (creditAccount.getCreditAmount().signum() <= 0) {
-            System.out.println("Error: CreditAccount - creditAmount must be positive");
+            System.err.println("Error: CreditAccount - creditAmount must be positive");
             return null;
         }
 
         if (creditAccount.getBank() == null) {
-            System.out.println("Error: CreditAccount - no bank");
+            System.err.println("Error: CreditAccount - no bank");
             return null;
         }
 
@@ -37,7 +37,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     @Override
     public boolean makeMontlyPayment(CreditAccount creditAccount) {
         if (creditAccount == null || creditAccount.getPaymentAccount() == null) {
-            System.out.println("Error: CreditAccount - no account to take money from");
+            System.err.println("Error: CreditAccount - no account to take money from");
             return false;
         }
 
@@ -45,7 +45,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         final BigDecimal paymentAccountBalance = creditAccount.getPaymentAccount().getBalance();
 
         if (paymentAccountBalance.compareTo(monthlyPayment) < 0) {
-            System.out.println("Error: CreditAccount - not enough balance for monthly payment");
+            System.err.println("Error: CreditAccount - not enough balance for monthly payment");
             return false;
         }
 

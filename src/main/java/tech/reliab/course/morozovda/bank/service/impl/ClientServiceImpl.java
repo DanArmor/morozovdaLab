@@ -22,7 +22,7 @@ public class ClientServiceImpl implements ClientService {
         }
 
         if (client.getBank() == null) {
-            System.out.println("Error: Client - must have bank");
+            System.err.println("Error: Client - must have bank");
             return null;
         }
 

@@ -141,7 +141,7 @@ public class BankServiceImpl implements BankService {
             int newUserCount = bank.getClientCount() - 1;
 
             if (newUserCount < 0) {
-                System.out.println("Error: Bank - cannot remove user, no users");
+                System.err.println("Error: Bank - cannot remove user, no users");
                 return false;
             }
 
@@ -154,17 +154,17 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean withdrawMoney(Bank bank, BigDecimal amount) {
         if (bank == null) {
-            System.out.println("Error: Bank - cannot withdraw money, bank is null");
+            System.err.println("Error: Bank - cannot withdraw money, bank is null");
             return false;
         }
 
         if (amount.signum() <= 0) {
-            System.out.println("Error: Bank - cannot withdraw money - withdraw amount must be positive");
+            System.err.println("Error: Bank - cannot withdraw money - withdraw amount must be positive");
             return false;
         }
 
         if (bank.getTotalMoney().compareTo(amount) < 0) {
-            System.out.println("Error: Bank - cannot withdraw money - bank does not have enough money");
+            System.err.println("Error: Bank - cannot withdraw money - bank does not have enough money");
             return false;
         }
 

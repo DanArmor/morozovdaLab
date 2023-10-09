@@ -14,7 +14,7 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
         }
 
         if (paymentAccount.getBalance().signum() < 0) {
-            System.out.println("Error: PaymentAccount - payment account balance must be non-negative");
+            System.err.println("Error: PaymentAccount - payment account balance must be non-negative");
             return null;
         }
 
@@ -24,12 +24,12 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
     @Override
     public boolean depositMoney(PaymentAccount paymentAccount, BigDecimal amount) {
         if (paymentAccount == null) {
-            System.out.println("Error: PaymentAccount - non existing payment account");
+            System.err.println("Error: PaymentAccount - non existing payment account");
             return false;
         }
 
         if (amount.signum() <= 0) {
-            System.out.println("Error: PaymentAccount - deposit amount must be positive");
+            System.err.println("Error: PaymentAccount - deposit amount must be positive");
             return false;
         }
 
@@ -40,18 +40,18 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
     @Override
     public boolean withdrawMoney(PaymentAccount paymentAccount, BigDecimal amount) {
         if (paymentAccount == null) {
-            System.out.println("Error: PaymentAccount - non existing payment account");
+            System.err.println("Error: PaymentAccount - non existing payment account");
             return false;
         }
 
         if (amount.signum() <= 0) {
-            System.out
+            System.err
                     .println("Error: PaymentAccount - withdrawal amount must be positive");
             return false;
         }
 
         if (paymentAccount.getBalance().compareTo(amount) < 0) {
-            System.out.println("Error:PaymentAccount - not enough money");
+            System.err.println("Error:PaymentAccount - not enough money");
             return false;
         }
 
