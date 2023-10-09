@@ -3,11 +3,6 @@ package tech.reliab.course.morozovda.bank.entity;
 import java.time.LocalDate;
 import java.math.BigDecimal;
 
-enum EmployeeJob {
-    Manager,
-    Worker
-}
-
 public class Employee extends Person {
     private EmployeeJob job;
     private Bank bank;
@@ -15,15 +10,6 @@ public class Employee extends Person {
     private BankOffice bankOffice;
     private boolean isCreditAvailable;
     private BigDecimal salary;
-
-    private void initWithDefaults() {
-        job = null;
-        bank = null;
-        isWorkingFromHome = false;
-        bankOffice = null;
-        isCreditAvailable = false;
-        salary = null;
-    }
 
     public Employee() {
         super();
@@ -109,4 +95,18 @@ public class Employee extends Person {
         this.salary = salary;
     }
 
+    private void initWithDefaults() {
+        job = null;
+        bank = null;
+        isWorkingFromHome = false;
+        bankOffice = null;
+        isCreditAvailable = false;
+        salary = null;
+    }
+
+}
+
+enum EmployeeJob {
+    Manager,
+    Worker
 }

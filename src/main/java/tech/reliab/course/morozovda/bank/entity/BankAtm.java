@@ -22,20 +22,6 @@ public class BankAtm {
     private BigDecimal totalMoney;
     private BigDecimal maintenanceCost;
 
-    private void initWithDefaults() {
-        id = UUID.randomUUID();
-        name = "No name";
-        address = "No address";
-        status = Status.NOT_WORKING;
-        bank = null;
-        bankOffice = null;
-        employee = null;
-        isCashWithdrawalAvailable = false;
-        isCashDepositAvailable = false;
-        totalMoney = null;
-        maintenanceCost = null;
-    }
-
     public BankAtm() {
         initWithDefaults();
     }
@@ -173,6 +159,20 @@ public class BankAtm {
 
     public void setMaintenanceCost(BigDecimal maintenanceCost) {
         this.maintenanceCost = maintenanceCost;
+    }
+
+    private void initWithDefaults() {
+        id = UUID.randomUUID();
+        name = "No name";
+        address = "No address";
+        status = Status.NOT_WORKING;
+        bank = null;
+        bankOffice = null;
+        employee = null;
+        isCashWithdrawalAvailable = false;
+        isCashDepositAvailable = false;
+        totalMoney = null;
+        maintenanceCost = null;
     }
 
 }

@@ -15,18 +15,6 @@ public class CreditAccount extends Account {
     private Employee employee;
     private PaymentAccount paymentAccount;
 
-    private void initWithDefaults() {
-        dateStart = null;
-        dateEnd = null;
-        monthCount = 0;
-        creditAmount = null;
-        remainingCreditAmount = null;
-        montlyPayment = null;
-        interestRate = null;
-        employee = null;
-        paymentAccount = null;
-    }
-
     public CreditAccount() {
         super();
         initWithDefaults();
@@ -147,6 +135,18 @@ public class CreditAccount extends Account {
 
     public void setPaymentAccount(PaymentAccount paymentAccount) {
         this.paymentAccount = paymentAccount;
+    }
+
+    private void initWithDefaults() {
+        dateStart = null;
+        dateEnd = null;
+        monthCount = 0;
+        creditAmount = null;
+        remainingCreditAmount = null;
+        montlyPayment = null;
+        interestRate = null;
+        employee = null;
+        paymentAccount = null;
     }
 
 }

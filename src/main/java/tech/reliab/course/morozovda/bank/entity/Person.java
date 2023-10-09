@@ -8,12 +8,6 @@ public class Person {
     protected String name;
     protected LocalDate birthdDate;
 
-    private void initWithDefaults() {
-        id = UUID.randomUUID();
-        name = "No name";
-        birthdDate = null;
-    }
-
     public Person() {
         initWithDefaults();
     }
@@ -61,6 +55,12 @@ public class Person {
 
     public void setBirthdDate(LocalDate birthdDate) {
         this.birthdDate = birthdDate;
+    }
+
+    private void initWithDefaults() {
+        id = UUID.randomUUID();
+        name = "No name";
+        birthdDate = null;
     }
 
 }

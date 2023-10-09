@@ -6,10 +6,6 @@ import java.util.UUID;
 public class PaymentAccount extends Account {
     private BigDecimal balance;
 
-    private void initWithDefaults() {
-        balance = new BigDecimal("0");
-    }
-
     public PaymentAccount() {
         super();
         initWithDefaults();
@@ -33,6 +29,10 @@ public class PaymentAccount extends Account {
 
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
+    }
+
+    private void initWithDefaults() {
+        balance = new BigDecimal("0");
     }
 
 }

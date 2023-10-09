@@ -17,21 +17,6 @@ public class BankOffice {
     private BigDecimal totalMoney;
     private BigDecimal rentPrice;
 
-    private void initWithDefaults() {
-        id = UUID.randomUUID();
-        name = "No name";
-        address = "No address";
-        bank = null;
-        isWorking = false;
-        isAtmPlaceable = false;
-        atmCount = 0;
-        isCreditAvailable = false;
-        isCashWithdrawalAvailable = false;
-        isCashDepositAvailable = false;
-        totalMoney = null;
-        rentPrice = null;
-    }
-
     public BankOffice(String name, String address) {
         initWithDefaults();
         this.name = name;
@@ -187,6 +172,21 @@ public class BankOffice {
 
     public void setRentPrice(BigDecimal rentPrice) {
         this.rentPrice = rentPrice;
+    }
+
+    private void initWithDefaults() {
+        id = UUID.randomUUID();
+        name = "No name";
+        address = "No address";
+        bank = null;
+        isWorking = false;
+        isAtmPlaceable = false;
+        atmCount = 0;
+        isCreditAvailable = false;
+        isCashWithdrawalAvailable = false;
+        isCashDepositAvailable = false;
+        totalMoney = null;
+        rentPrice = null;
     }
 
 }

@@ -5,18 +5,11 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 public class Client extends Person {
+    public static final double MAX_client_MONTHLY_INCOME = 10000;
     private String placeOfWork;
     private BigDecimal monthlyIncome;
     private Bank bank;
     private int creditRating;
-    public static final double MAX_client_MONTHLY_INCOME = 10000;
-
-    private void initWithDefaults() {
-        placeOfWork = "No place of work";
-        monthlyIncome = null;
-        bank = null;
-        creditRating = 0;
-    }
 
     public Client() {
         initWithDefaults();
@@ -73,6 +66,13 @@ public class Client extends Person {
 
     public void setCreditRating(int creditRating) {
         this.creditRating = creditRating;
+    }
+
+    private void initWithDefaults() {
+        placeOfWork = "No place of work";
+        monthlyIncome = null;
+        bank = null;
+        creditRating = 0;
     }
 
 }

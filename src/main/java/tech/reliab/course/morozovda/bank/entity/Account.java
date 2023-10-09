@@ -7,12 +7,6 @@ public class Account {
     protected Client client;
     protected Bank bank;
 
-    private void initWithDefaults() {
-        id = UUID.randomUUID();
-        client = null;
-        bank = null;
-    }
-
     public Account() {
         initWithDefaults();
     }
@@ -59,6 +53,12 @@ public class Account {
 
     public void setBank(Bank bank) {
         this.bank = bank;
+    }
+
+    private void initWithDefaults() {
+        id = UUID.randomUUID();
+        client = null;
+        bank = null;
     }
 
 }

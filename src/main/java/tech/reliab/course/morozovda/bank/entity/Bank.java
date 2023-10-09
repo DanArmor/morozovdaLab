@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 public class Bank {
+    public static final byte MAX_BANK_RATING = 100;
+    public static final double MAX_BANK_TOTAL_MONEY = 1000000;
+    public static final double MAX_BANK_INTEREST_RATE = 20;
     private UUID id;
     private String name;
     private int officeCount;
@@ -13,21 +16,6 @@ public class Bank {
     private byte rating;
     private BigDecimal totalMoney;
     private BigDecimal interestRate;
-    public static final byte MAX_BANK_RATING = 100;
-    public static final double MAX_BANK_TOTAL_MONEY = 1000000;
-    public static final double MAX_BANK_INTEREST_RATE = 20;
-
-    private void initWithDefaults() {
-        id = UUID.randomUUID();
-        name = "No name";
-        officeCount = 0;
-        atmCount = 0;
-        employeeCount = 0;
-        clientCount = 0;
-        rating = 0;
-        totalMoney = null;
-        interestRate = null;
-    }
 
     public Bank() {
         initWithDefaults();
@@ -129,6 +117,18 @@ public class Bank {
 
     public void setInterestRate(BigDecimal interestRate) {
         this.interestRate = interestRate;
+    }
+
+    private void initWithDefaults() {
+        id = UUID.randomUUID();
+        name = "No name";
+        officeCount = 0;
+        atmCount = 0;
+        employeeCount = 0;
+        clientCount = 0;
+        rating = 0;
+        totalMoney = null;
+        interestRate = null;
     }
 
 }
