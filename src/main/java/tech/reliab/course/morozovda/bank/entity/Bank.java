@@ -13,6 +13,9 @@ public class Bank {
     private byte rating;
     private BigDecimal totalMoney;
     private BigDecimal interestRate;
+    public static final byte MAX_BANK_RATING = 100;
+    public static final double MAX_BANK_TOTAL_MONEY = 1000000;
+    public static final double MAX_BANK_INTEREST_RATE = 20;
 
     private void initWithDefaults() {
         id = UUID.randomUUID();

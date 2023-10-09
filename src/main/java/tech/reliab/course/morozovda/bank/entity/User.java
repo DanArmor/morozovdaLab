@@ -9,6 +9,7 @@ public class User extends Person {
     private BigDecimal monthlyIncome;
     private Bank bank;
     private int creditRating;
+    public static final double MAX_USER_MONTHLY_INCOME = 10000;
 
     private void initWithDefaults() {
         placeOfWork = "No place of work";
