@@ -103,7 +103,7 @@ public class Bank {
         return this.clientCount;
     }
 
-    public void setclientCount(int clientCount) {
+    public void setClientCount(int clientCount) {
         this.clientCount = clientCount;
     }
 
