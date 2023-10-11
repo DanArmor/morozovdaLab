@@ -9,13 +9,6 @@ import tech.reliab.course.morozovda.bank.utils.BigRandom;
 public class ClientServiceImpl implements ClientService {
 
     @Override
-    public BigDecimal calculateCreditRating(Client client) {
-        client.setCreditRating(
-                client.getMonthlyIncome().divide(new BigDecimal("1000").multiply(new BigDecimal("100"))));
-        return client.getCreditRating();
-    }
-
-    @Override
     public Client create(Client client) {
         if (client == null) {
             return null;
@@ -34,6 +27,13 @@ public class ClientServiceImpl implements ClientService {
         calculateCreditRating(createdclient);
 
         return createdclient;
+    }
+
+    @Override
+    public BigDecimal calculateCreditRating(Client client) {
+        client.setCreditRating(
+                client.getMonthlyIncome().divide(new BigDecimal("1000").multiply(new BigDecimal("100"))));
+        return client.getCreditRating();
     }
 
 }
