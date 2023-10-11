@@ -14,10 +14,45 @@ import tech.reliab.course.morozovda.bank.utils.BigRandom;
 public class BankServiceImpl implements BankService {
 
     @Override
+    public Bank create(Bank bank) {
+        if (bank == null) {
+            return null;
+        }
+
+        Bank newBank = new Bank(bank.getId(), bank.getName());
+
+        final Random random = new Random();
+
+        newBank.setRating((byte) random.nextInt(Bank.MAX_RATING.intValue() + 1));
+        newBank.setTotalMoney(
+                BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0").multiply(Bank.MAX_TOTAL_MONEY)));
+        calculateInterestRate(newBank);
+
+        return newBank;
+    }
+
+    @Override
     public boolean addEmployee(Bank bank, Employee employee) {
         if (bank != null && employee != null) {
             employee.setBank(bank);
             bank.setEmployeeCount(bank.getEmployeeCount() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeEmployee(Bank bank, Employee employee) {
+        if (bank != null && employee != null) {
+            final int newEmployeeCount = bank.getEmployeeCount() - 1;
+
+            if (newEmployeeCount < 0) {
+                System.err.println("Error: Bank - cannot remove employee, no employees");
+                return false;
+            }
+
+            bank.setEmployeeCount(newEmployeeCount);
+
             return true;
         }
         return false;
@@ -34,10 +69,43 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
+    public boolean removeOffice(Bank bank, BankOffice bankOffice) {
+        if (bank != null && bankOffice != null) {
+            final int newOfficeCount = bank.getOfficeCount() - 1;
+
+            if (newOfficeCount < 0) {
+                System.err.println("Error: Bank - cannot remove office, no offices");
+                return false;
+            }
+
+            bank.setOfficeCount(newOfficeCount);
+
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean addClient(Bank bank, Client client) {
         if (bank != null && client != null) {
             client.setBank(bank);
             bank.setClientCount(bank.getClientCount() + 1);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeClient(Bank bank, Client client) {
+        if (bank != null && client != null) {
+            int newUserCount = bank.getClientCount() - 1;
+
+            if (newUserCount < 0) {
+                System.err.println("Error: Bank - cannot remove user, no users");
+                return false;
+            }
+
+            bank.setClientCount(newUserCount);
             return true;
         }
         return false;
@@ -68,24 +136,6 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Bank create(Bank bank) {
-        if (bank == null) {
-            return null;
-        }
-
-        Bank newBank = new Bank(bank.getId(), bank.getName());
-
-        final Random random = new Random();
-
-        newBank.setRating((byte) random.nextInt(Bank.MAX_RATING.intValue() + 1));
-        newBank.setTotalMoney(
-                BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0").multiply(Bank.MAX_TOTAL_MONEY)));
-        calculateInterestRate(newBank);
-
-        return newBank;
-    }
-
-    @Override
     public boolean depositMoney(Bank bank, BigDecimal amount) {
         if (bank == null) {
             System.err.println("Error: Bank - cannot deposit money to uninitialized bank");
@@ -99,56 +149,6 @@ public class BankServiceImpl implements BankService {
 
         bank.setTotalMoney(bank.getTotalMoney().add(amount));
         return true;
-    }
-
-    @Override
-    public boolean removeEmployee(Bank bank, Employee employee) {
-        if (bank != null && employee != null) {
-            final int newEmployeeCount = bank.getEmployeeCount() - 1;
-
-            if (newEmployeeCount < 0) {
-                System.err.println("Error: Bank - cannot remove employee, no employees");
-                return false;
-            }
-
-            bank.setEmployeeCount(newEmployeeCount);
-
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeOffice(Bank bank, BankOffice bankOffice) {
-        if (bank != null && bankOffice != null) {
-            final int newOfficeCount = bank.getOfficeCount() - 1;
-
-            if (newOfficeCount < 0) {
-                System.err.println("Error: Bank - cannot remove office, no offices");
-                return false;
-            }
-
-            bank.setOfficeCount(newOfficeCount);
-
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeClient(Bank bank, Client client) {
-        if (bank != null && client != null) {
-            int newUserCount = bank.getClientCount() - 1;
-
-            if (newUserCount < 0) {
-                System.err.println("Error: Bank - cannot remove user, no users");
-                return false;
-            }
-
-            bank.setClientCount(newUserCount);
-            return true;
-        }
-        return false;
     }
 
     @Override

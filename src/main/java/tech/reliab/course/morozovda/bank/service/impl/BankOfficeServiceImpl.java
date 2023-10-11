@@ -10,17 +10,6 @@ import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 public class BankOfficeServiceImpl implements BankOfficeService {
 
     @Override
-    public boolean addEmployee(BankOffice bankOffice, Employee employee) {
-        if (bankOffice != null && employee != null) {
-            employee.setBankOffice(bankOffice);
-            employee.setBank(bankOffice.getBank());
-            // Добавить механизм добавления работника в банк
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public BankOffice create(BankOffice bankOffice) {
         if (bankOffice == null) {
             return null;
@@ -68,6 +57,34 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
+    public boolean withdrawMoney(BankOffice bankOffice, BigDecimal amount) {
+        if (bankOffice == null) {
+            System.err.println("Error: BankOffice - cannot withdraw money from not existing office");
+            return false;
+        }
+
+        if (amount.signum() <= 0) {
+            System.err.println("Error: BankOffice - cannot withdraw money - withdraw amount must be positive");
+            return false;
+        }
+
+        if (!bankOffice.getIsCashWithdrawalAvailable()) {
+            System.err.println("Error: BankOffice - cannot withdraw money - office cannot give withdrawal");
+            return false;
+        }
+
+        if (bankOffice.getTotalMoney().compareTo(amount) < 0) {
+            System.err.println("Error: BankOffice - cannot withdraw money - office does not have enough money");
+            return false;
+        }
+
+        bankOffice.setTotalMoney(bankOffice.getTotalMoney().subtract(amount));
+        // TODO: Добавить механизм взаимодействия с банком
+
+        return true;
+    }
+
+    @Override
     public boolean installAtm(BankOffice bankOffice, BankAtm bankAtm) {
         if (bankOffice != null && bankAtm != null) {
             if (!bankOffice.getIsAtmPlaceable()) {
@@ -103,6 +120,17 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
+    public boolean addEmployee(BankOffice bankOffice, Employee employee) {
+        if (bankOffice != null && employee != null) {
+            employee.setBankOffice(bankOffice);
+            employee.setBank(bankOffice.getBank());
+            // Добавить механизм добавления работника в банк
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean removeEmployee(BankOffice bankOffice, Employee employee) {
         // TODO: добавить механизм поиска и удаления работника из офиса и банка
         if (bankOffice != null && employee != null) {
@@ -110,34 +138,6 @@ public class BankOfficeServiceImpl implements BankOfficeService {
         }
         return false;
 
-    }
-
-    @Override
-    public boolean withdrawMoney(BankOffice bankOffice, BigDecimal amount) {
-        if (bankOffice == null) {
-            System.err.println("Error: BankOffice - cannot withdraw money from not existing office");
-            return false;
-        }
-
-        if (amount.signum() <= 0) {
-            System.err.println("Error: BankOffice - cannot withdraw money - withdraw amount must be positive");
-            return false;
-        }
-
-        if (!bankOffice.getIsCashWithdrawalAvailable()) {
-            System.err.println("Error: BankOffice - cannot withdraw money - office cannot give withdrawal");
-            return false;
-        }
-
-        if (bankOffice.getTotalMoney().compareTo(amount) < 0) {
-            System.err.println("Error: BankOffice - cannot withdraw money - office does not have enough money");
-            return false;
-        }
-
-        bankOffice.setTotalMoney(bankOffice.getTotalMoney().subtract(amount));
-        // TODO: Добавить механизм взаимодействия с банком
-
-        return true;
     }
 
 }
