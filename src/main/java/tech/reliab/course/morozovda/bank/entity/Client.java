@@ -50,9 +50,9 @@ public class Client extends Person {
         return "Clien:{" +
                 "\n person='" + super.toString() + "'" +
                 ",\n placeOfWork='" + getPlaceOfWork() + "'" +
-                ",\n monthlyIncome='" + getMonthlyIncome() + "'" +
+                ",\n monthlyIncome='" + String.format("%.2f", getMonthlyIncome()) + "'" +
                 ",\n bank='" + getBank() + "'" +
-                ",\n creditRating='" + getCreditRating() + "'" +
+                ",\n creditRating='" + String.format("%.2f", getCreditRating()) + "'" +
                 "\n}";
     }
 

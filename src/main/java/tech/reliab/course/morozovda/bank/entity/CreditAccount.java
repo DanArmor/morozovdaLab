@@ -70,10 +70,10 @@ public class CreditAccount extends Account {
                 ",\n dateStart='" + getDateStart() + "'" +
                 ",\n dateEnd='" + getDateEnd() + "'" +
                 ",\n monthCount='" + getMonthCount() + "'" +
-                ",\n creditAmount='" + getCreditAmount() + "'" +
-                ",\n remainingCreditAmount='" + getRemainingCreditAmount() + "'" +
-                ",\n montlyPayment='" + getMonthlyPayment() + "'" +
-                ",\n interestRate='" + getInterestRate() + "'" +
+                ",\n creditAmount='" + String.format("%.2f", getCreditAmount()) + "'" +
+                ",\n remainingCreditAmount='" + String.format("%.2f", getRemainingCreditAmount()) + "'" +
+                ",\n montlyPayment='" + String.format("%.2f", getMonthlyPayment()) + "'" +
+                ",\n interestRate='" + String.format("%.2f", getInterestRate()) + "'" +
                 ",\n employee='" + getEmployee() + "'" +
                 ",\n paymentAccount='" + getPaymentAccount() + "'" +
                 "\n}";

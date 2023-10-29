@@ -30,7 +30,7 @@ public class PaymentAccount extends Account {
     public String toString() {
         return "PaymentAccount:{" +
                 "\n account='" + super.toString() + "'" +
-                ",\n balance='" + getBalance() + "'" +
+                ",\n balance='" + String.format("%.2f", getBalance()) + "'" +
                 "\n}";
     }
 

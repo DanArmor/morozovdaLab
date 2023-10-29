@@ -85,8 +85,8 @@ public class BankOffice {
                 ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +
                 ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
                 ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
-                ",\n totalMoney='" + getTotalMoney() + "'" +
-                ",\n rentPrice='" + getRentPrice() + "'" +
+                ",\n totalMoney='" + String.format("%.2f", getTotalMoney()) + "'" +
+                ",\n rentPrice='" + String.format("%.2f", getRentPrice()) + "'" +
                 "\n}";
     }
 

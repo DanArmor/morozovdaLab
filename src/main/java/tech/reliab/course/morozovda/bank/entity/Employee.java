@@ -52,7 +52,7 @@ public class Employee extends Person {
                 ",\n isWorkingFromHome='" + isIsWorkingFromHome() + "'" +
                 ",\n bankOffice='" + getBankOffice() + "'" +
                 ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +
-                ",\n salary='" + getSalary() + "'" +
+                ",\n salary='" + String.format("%.2f", getSalary()) + "'" +
                 "\n}";
     }
 
