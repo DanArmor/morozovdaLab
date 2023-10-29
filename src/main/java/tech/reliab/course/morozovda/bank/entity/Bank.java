@@ -46,7 +46,7 @@ public class Bank {
 
     @Override
     public String toString() {
-        return "{" +
+        return "Bank:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n officeCount='" + getOfficeCount() + "'" +

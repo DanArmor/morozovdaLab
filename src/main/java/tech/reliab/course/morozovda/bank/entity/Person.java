@@ -32,7 +32,7 @@ public class Person {
 
     @Override
     public String toString() {
-        return "{" +
+        return "Person:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n birthdDate='" + getBirthdDate() + "'" +

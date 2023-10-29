@@ -74,7 +74,7 @@ public class BankOffice {
 
     @Override
     public String toString() {
-        return "{" +
+        return "BankOffice:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n address='" + getAddress() + "'" +

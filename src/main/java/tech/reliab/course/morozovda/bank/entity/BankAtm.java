@@ -80,7 +80,7 @@ public class BankAtm {
 
     @Override
     public String toString() {
-        return "{" +
+        return "BankAtm:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n address='" + getAddress() + "'" +

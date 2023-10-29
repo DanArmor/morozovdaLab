@@ -65,7 +65,7 @@ public class CreditAccount extends Account {
 
     @Override
     public String toString() {
-        return "{" +
+        return "CreditAccount:{" +
                 "\n account='" + super.toString() + "'" +
                 ",\n dateStart='" + getDateStart() + "'" +
                 ",\n dateEnd='" + getDateEnd() + "'" +
