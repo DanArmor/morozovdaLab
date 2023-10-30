@@ -1,7 +1,12 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
@@ -12,6 +17,8 @@ import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class BankServiceImpl implements BankService {
+    private final Map<UUID, Bank> banksTable = new HashMap<>();
+    private final Map<UUID, List<BankOffice>> officesTable = new HashMap<>();
 
     @Override
     public Bank create(Bank bank) {
@@ -59,7 +66,42 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addOffice(Bank bank, BankOffice bankOffice) {
+    public Bank getBankById(UUID bankId) {
+        Bank bank = banksTable.get(bankId);
+        if (bank == null) {
+            System.err.println("Bank with id " + bankId.toString() + " is not found");
+        }
+        return bank;
+    }
+
+    @Override
+    public void printBankData(UUID bankId) {
+        Bank bank = getBankById(bankId);
+        if (bank == null) {
+            return;
+        }
+        System.out.println("=====================");
+        System.out.println(bank);
+        System.out.println("Offices");
+        officesTable.get(bankId).forEach((BankOffice office) -> {
+            System.out.println(office);
+        });
+        System.out.println("=====================");
+    }
+
+    @Override
+    public boolean deleteBankById(UUID bankId){
+        return true;
+    }
+
+    @Override
+    public List<Bank> getAllBanks() {
+        return new ArrayList<>(banksTable.values());
+    }
+
+    @Override
+    public boolean addOffice(UUID bankId, BankOffice bankOffice) {
+        Bank bank = getBankById(bankId);
         if (bank != null && bankOffice != null) {
             bankOffice.setBank(bank);
             bank.setOfficeCount(bank.getOfficeCount() + 1);
@@ -69,7 +111,8 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean removeOffice(Bank bank, BankOffice bankOffice) {
+    public boolean removeOffice(UUID bankId, BankOffice bankOffice) {
+        Bank bank = getBankById(bankId);
         if (bank != null && bankOffice != null) {
             final int newOfficeCount = bank.getOfficeCount() - 1;
 
