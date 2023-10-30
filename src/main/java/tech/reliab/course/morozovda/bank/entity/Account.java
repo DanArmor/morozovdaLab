@@ -13,6 +13,7 @@ public class Account {
 
     public Account(Client client, Bank bank) {
         initWithDefaults();
+        this.client = client;
         this.bank = bank;
     }
 
@@ -30,7 +31,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "{" +
+        return "Account:{" +
                 "\n id='" + getId() + "'" +
                 ",\n client='" + getClient() + "'" +
                 ",\n bank='" + getBank() + "'" +

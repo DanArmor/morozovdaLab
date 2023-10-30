@@ -1,6 +1,7 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class Bank {
@@ -46,7 +47,7 @@ public class Bank {
 
     @Override
     public String toString() {
-        return "{" +
+        return "Bank:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n officeCount='" + getOfficeCount() + "'" +
@@ -54,8 +55,8 @@ public class Bank {
                 ",\n employeeCount='" + getEmployeeCount() + "'" +
                 ",\n clientCount='" + getClientCount() + "'" +
                 ",\n rating='" + getRating() + "'" +
-                ",\n totalMoney='" + getTotalMoney() + "'" +
-                ",\n interestRate='" + getInterestRate() + "'" +
+                ",\n totalMoney='" + String.format("%.2f", getTotalMoney()) + "'" +
+                ",\n interestRate='" + String.format("%.2f", getInterestRate()) + "'" +
                 "\n}";
     }
 

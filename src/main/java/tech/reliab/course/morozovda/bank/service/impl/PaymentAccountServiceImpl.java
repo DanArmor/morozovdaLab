@@ -1,11 +1,24 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
+import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.service.PaymentAccountService;
 
 public class PaymentAccountServiceImpl implements PaymentAccountService {
+
+    private final Map<UUID, PaymentAccount> paymentAccountsTable = new HashMap<>();
+    private final ClientService clientService;
+
+    public PaymentAccountServiceImpl(ClientService clientService) {
+        this.clientService = clientService;
+    }
 
     @Override
     public PaymentAccount create(PaymentAccount paymentAccount) {
@@ -18,7 +31,11 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
             return null;
         }
 
-        return new PaymentAccount(paymentAccount);
+        PaymentAccount newAccount = new PaymentAccount(paymentAccount);
+        paymentAccountsTable.put(newAccount.getId(), newAccount);
+        clientService.addPaymentAccount(newAccount.getClient().getId(), newAccount);
+
+        return newAccount;
     }
 
     @Override
@@ -58,6 +75,30 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
         paymentAccount.setBalance(paymentAccount.getBalance().subtract(amount));
 
         return true;
+    }
+
+    @Override
+    public List<PaymentAccount> getAllPaymentAccounts() {
+        return new ArrayList<PaymentAccount>(paymentAccountsTable.values());
+    }
+
+    @Override
+    public PaymentAccount getPaymentAccountById(UUID id) {
+        PaymentAccount account = paymentAccountsTable.get(id);
+        if (account == null) {
+            System.err.println("Payment account with id " + id.toString() + " is not found");
+        }
+        return account;
+    }
+
+    @Override
+    public void printPaymentData(UUID id) {
+        PaymentAccount account = getPaymentAccountById(id);
+        if (account == null) {
+            return;
+        }
+
+        System.out.println(account);
     }
 
 }

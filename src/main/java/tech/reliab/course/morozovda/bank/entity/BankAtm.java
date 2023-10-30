@@ -1,6 +1,7 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.UUID;
 
 public class BankAtm {
@@ -80,7 +81,7 @@ public class BankAtm {
 
     @Override
     public String toString() {
-        return "{" +
+        return "BankAtm:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n address='" + getAddress() + "'" +
@@ -90,8 +91,8 @@ public class BankAtm {
                 ",\n employee='" + getEmployee() + "'" +
                 ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
                 ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
-                ",\n totalMoney='" + getTotalMoney() + "'" +
-                ",\n maintenanceCost='" + getMaintenanceCost() + "'" +
+                ",\n totalMoney='" + String.format("%.2f", getTotalMoney()) + "'" +
+                ",\n maintenanceCost='" + String.format("%.2f", getMaintenanceCost()) + "'" +
                 "\n}";
     }
 

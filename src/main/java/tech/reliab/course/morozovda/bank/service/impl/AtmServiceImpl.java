@@ -1,11 +1,37 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
 import tech.reliab.course.morozovda.bank.service.AtmService;
+import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 
 public class AtmServiceImpl implements AtmService {
+    private final Map<UUID, BankAtm> atmsTable = new HashMap<>();
+    private final BankOfficeService bankOfficeService;
+
+    @Override
+    public List<BankAtm> getAllBankAtms() {
+        return new ArrayList<>(atmsTable.values());
+    }
+
+    @Override
+    public BankAtm getBankAtmById(UUID id) {
+        BankAtm atm = atmsTable.get(id);
+        if (atm == null) {
+            System.err.println("Atm with id " + id.toString() + " is not found");
+        }
+        return atm;
+    }
+
+    public AtmServiceImpl(BankOfficeService bankOfficeService) {
+        this.bankOfficeService = bankOfficeService;
+    }
 
     @Override
     public BankAtm create(BankAtm bankAtm) {
@@ -24,7 +50,10 @@ public class AtmServiceImpl implements AtmService {
             System.err.println("Error: cannot create BankAtm - bankOffice cannot be null");
             return null;
         }
-        return new BankAtm(bankAtm);
+        BankAtm atm = new BankAtm(bankAtm);
+        atmsTable.put(atm.getId(), atm);
+        bankOfficeService.installAtm(atm.getBankOffice().getId(), atm);
+        return atm;
     }
 
     @Override
