@@ -17,6 +17,15 @@ public interface BankService {
     // Возвращает банк по его ID
     public Bank getBankById(UUID bankId);
 
+    // Установка сервиса для управления офисами
+    public void setBankOfficeService(BankOfficeService bankOfficeService);
+
+    // Получение всех офисов банка с заданным ID
+    public List<BankOffice> getAllOfficesByBankId(UUID id);
+
+    // Установка сервиса для управления клиентами
+    public void setClientService(ClientService bankOfficeService);
+
     // Удаляет банк по его ID
     public boolean deleteBankById(UUID bankId);
 
@@ -39,7 +48,7 @@ public interface BankService {
     public boolean removeEmployee(Bank bank, Employee employee);
 
     // Добавление клиента
-    public boolean addClient(Bank bank, Client client);
+    public boolean addClient(UUID id, Client client);
 
     // Удаление клиента
     public boolean removeClient(Bank bank, Client client);
@@ -48,10 +57,10 @@ public interface BankService {
     public BigDecimal calculateInterestRate(Bank bank);
 
     // Внести amount денег в банк
-    public boolean depositMoney(Bank bank, BigDecimal amount);
+    public boolean depositMoney(UUID id, BigDecimal amount);
 
     // Вывести amount денег из банка
-    public boolean withdrawMoney(Bank bank, BigDecimal amount);
+    public boolean withdrawMoney(UUID id, BigDecimal amount);
 
     // Оформление заявки на кредит
     public boolean approveCredit(Bank bank, CreditAccount account, Employee employee);

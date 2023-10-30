@@ -1,10 +1,24 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.EmployeeService;
 
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private final Map<UUID, Employee> employeesTable = new HashMap<>();
+    private final BankOfficeService bankOfficeService;
+
+    public EmployeeServiceImpl(BankOfficeService bankOfficeService) {
+        this.bankOfficeService = bankOfficeService;
+    }
 
     @Override
     public Employee create(Employee employee) {
@@ -17,9 +31,11 @@ public class EmployeeServiceImpl implements EmployeeService {
             return null;
         }
 
-        // TODO: Добавить механизм проверки на имеющийся офис и добавление в офис
+        Employee newEmployee = new Employee(employee);
+        employeesTable.put(newEmployee.getId(), newEmployee);
+        bankOfficeService.addEmployee(newEmployee.getBankOffice().getId(), newEmployee);
 
-        return new Employee(employee);
+        return newEmployee;
     }
 
     @Override
@@ -27,6 +43,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         // TODO: Добавить механизм перевода сотрудника в новый офис
 
         return true;
+    }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return new ArrayList<Employee>(employeesTable.values());
+    }
+
+    @Override
+    public Employee getEmployeeById(UUID id) {
+        Employee employee = employeesTable.get(id);
+        if (employee == null) {
+            System.err.println("Employee with id " + id.toString() + " is not found");
+        }
+        return employee;
     }
 
 }

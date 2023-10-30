@@ -13,12 +13,37 @@ import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
+import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class BankServiceImpl implements BankService {
     private final Map<UUID, Bank> banksTable = new HashMap<>();
-    private final Map<UUID, List<BankOffice>> officesTable = new HashMap<>();
+    private final Map<UUID, List<BankOffice>> officesByBankIdTable = new HashMap<>();
+    private final Map<UUID, List<Client>> clientsByBankIdTable = new HashMap<>();
+    private BankOfficeService bankOfficeService;
+    private ClientService clientService;
+
+    @Override
+    public void setBankOfficeService(BankOfficeService bankOfficeService) {
+        this.bankOfficeService = bankOfficeService;
+    }
+
+    @Override
+    public void setClientService(ClientService clientService) {
+        this.clientService = clientService;
+    }
+
+    @Override
+    public List<BankOffice> getAllOfficesByBankId(UUID id) {
+        Bank bank = getBankById(id);
+        if (bank != null) {
+            List<BankOffice> bankOffices = officesByBankIdTable.get(id);
+            return bankOffices;
+        }
+        return new ArrayList<>();
+    }
 
     @Override
     public Bank create(Bank bank) {
@@ -34,6 +59,12 @@ public class BankServiceImpl implements BankService {
         newBank.setTotalMoney(
                 BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0").multiply(Bank.MAX_TOTAL_MONEY)));
         calculateInterestRate(newBank);
+
+        if (newBank != null) {
+            banksTable.put(newBank.getId(), newBank);
+            officesByBankIdTable.put(newBank.getId(), new ArrayList<>());
+            clientsByBankIdTable.put(newBank.getId(), new ArrayList<>());
+        }
 
         return newBank;
     }
@@ -82,15 +113,26 @@ public class BankServiceImpl implements BankService {
         }
         System.out.println("=====================");
         System.out.println(bank);
-        System.out.println("Offices");
-        officesTable.get(bankId).forEach((BankOffice office) -> {
-            System.out.println(office);
-        });
+
+        List<BankOffice> offices = officesByBankIdTable.get(bankId);
+        if (offices != null) {
+            System.out.println("Offices:");
+            offices.forEach((BankOffice office) -> {
+                bankOfficeService.printBankOfficeData(office.getId());
+            });
+        }
+        List<Client> clients = clientsByBankIdTable.get(bankId);
+        if (clients != null) {
+            System.out.println("Clients:");
+            clients.forEach((Client client) -> {
+                clientService.printClientData(client.getId(), false);
+            });
+        }
         System.out.println("=====================");
     }
 
     @Override
-    public boolean deleteBankById(UUID bankId){
+    public boolean deleteBankById(UUID bankId) {
         return true;
     }
 
@@ -105,6 +147,10 @@ public class BankServiceImpl implements BankService {
         if (bank != null && bankOffice != null) {
             bankOffice.setBank(bank);
             bank.setOfficeCount(bank.getOfficeCount() + 1);
+            bank.setAtmCount(bank.getAtmCount() + bankOffice.getAtmCount());
+            depositMoney(bankId, bankOffice.getTotalMoney());
+            List<BankOffice> bankOffices = getAllOfficesByBankId(bankId);
+            bankOffices.add(bankOffice);
             return true;
         }
         return false;
@@ -113,7 +159,8 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean removeOffice(UUID bankId, BankOffice bankOffice) {
         Bank bank = getBankById(bankId);
-        if (bank != null && bankOffice != null) {
+        int officeIndex = officesByBankIdTable.get(bankId).indexOf(bankOffice);
+        if (bank != null && officeIndex >= 0) {
             final int newOfficeCount = bank.getOfficeCount() - 1;
 
             if (newOfficeCount < 0) {
@@ -123,16 +170,22 @@ public class BankServiceImpl implements BankService {
 
             bank.setOfficeCount(newOfficeCount);
 
+            bank.setAtmCount(bank.getAtmCount() - officesByBankIdTable.get(bankId).get(officeIndex).getAtmCount());
+            officesByBankIdTable.get(bankId).remove(officeIndex);
+
             return true;
         }
         return false;
     }
 
     @Override
-    public boolean addClient(Bank bank, Client client) {
+    public boolean addClient(UUID id, Client client) {
+        Bank bank = getBankById(id);
         if (bank != null && client != null) {
             client.setBank(bank);
             bank.setClientCount(bank.getClientCount() + 1);
+            List<Client> clients = clientsByBankIdTable.get(id);
+            clients.add(client);
             return true;
         }
         return false;
@@ -141,14 +194,14 @@ public class BankServiceImpl implements BankService {
     @Override
     public boolean removeClient(Bank bank, Client client) {
         if (bank != null && client != null) {
-            int newUserCount = bank.getClientCount() - 1;
+            int newClientCount = bank.getClientCount() - 1;
 
-            if (newUserCount < 0) {
-                System.err.println("Error: Bank - cannot remove user, no users");
+            if (newClientCount < 0) {
+                System.err.println("Error: Bank - cannot remove client, no clients");
                 return false;
             }
 
-            bank.setClientCount(newUserCount);
+            bank.setClientCount(newClientCount);
             return true;
         }
         return false;
@@ -179,7 +232,8 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean depositMoney(Bank bank, BigDecimal amount) {
+    public boolean depositMoney(UUID id, BigDecimal amount) {
+        Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot deposit money to uninitialized bank");
             return false;
@@ -195,7 +249,8 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean withdrawMoney(Bank bank, BigDecimal amount) {
+    public boolean withdrawMoney(UUID id, BigDecimal amount) {
+        Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot withdraw money, bank is null");
             return false;
@@ -215,5 +270,4 @@ public class BankServiceImpl implements BankService {
         return true;
 
     }
-
 }

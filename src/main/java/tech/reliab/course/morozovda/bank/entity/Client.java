@@ -47,7 +47,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return "Clien:{" +
+        return "Client:{" +
                 "\n person='" + super.toString() + "'" +
                 ",\n placeOfWork='" + getPlaceOfWork() + "'" +
                 ",\n monthlyIncome='" + String.format("%.2f", getMonthlyIncome()) + "'" +

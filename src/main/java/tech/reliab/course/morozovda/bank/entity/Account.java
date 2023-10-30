@@ -13,6 +13,7 @@ public class Account {
 
     public Account(Client client, Bank bank) {
         initWithDefaults();
+        this.client = client;
         this.bank = bank;
     }
 
