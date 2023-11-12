@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
@@ -15,9 +14,9 @@ import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class ClientServiceImpl implements ClientService {
-    private final Map<UUID, Client> clientsTable = new HashMap<>();
-    private final Map<UUID, List<PaymentAccount>> paymentAccountsByClientIdTable = new HashMap<>();
-    private final Map<UUID, List<CreditAccount>> creditAccountsByClientIdTable = new HashMap<>();
+    private final Map<Integer, Client> clientsTable = new HashMap<>();
+    private final Map<Integer, List<PaymentAccount>> paymentAccountsByClientIdTable = new HashMap<>();
+    private final Map<Integer, List<CreditAccount>> creditAccountsByClientIdTable = new HashMap<>();
     private final BankService bankService;
 
     public ClientServiceImpl(BankService bankService) {
@@ -58,7 +57,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addCreditAccount(UUID id, CreditAccount account) {
+    public boolean addCreditAccount(int id, CreditAccount account) {
         Client client = clientsTable.get(id);
         if (client != null) {
             List<CreditAccount> clientCreditAccounts = creditAccountsByClientIdTable.get(id);
@@ -69,7 +68,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addPaymentAccount(UUID id, PaymentAccount account) {
+    public boolean addPaymentAccount(int id, PaymentAccount account) {
         Client client = clientsTable.get(id);
         if (client != null) {
             List<PaymentAccount> clientCreditAccounts = paymentAccountsByClientIdTable.get(id);
@@ -80,12 +79,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<PaymentAccount> getAllPaymentAccountsByClientId(UUID id) {
+    public List<PaymentAccount> getAllPaymentAccountsByClientId(int id) {
         return paymentAccountsByClientIdTable.get(id);
     }
 
     @Override
-    public List<CreditAccount> getAllCreditAccountsByClientId(UUID id) {
+    public List<CreditAccount> getAllCreditAccountsByClientId(int id) {
         return creditAccountsByClientIdTable.get(id);
     }
 
@@ -95,16 +94,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getClientById(UUID id) {
+    public Client getClientById(int id) {
         Client client = clientsTable.get(id);
         if (client == null) {
-            System.err.println("Client with id " + id.toString() + " is not found");
+            System.err.println("Client with id " + id + " is not found");
         }
         return client;
     }
 
     @Override
-    public void printClientData(UUID id, boolean withAccounts) {
+    public void printClientData(int id, boolean withAccounts) {
         Client client = getClientById(id);
 
         if (client == null) {

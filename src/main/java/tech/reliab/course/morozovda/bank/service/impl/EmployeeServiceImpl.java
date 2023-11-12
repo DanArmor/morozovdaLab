@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Employee;
@@ -13,7 +12,7 @@ import tech.reliab.course.morozovda.bank.service.EmployeeService;
 
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final Map<UUID, Employee> employeesTable = new HashMap<>();
+    private final Map<Integer, Employee> employeesTable = new HashMap<>();
     private final BankOfficeService bankOfficeService;
 
     public EmployeeServiceImpl(BankOfficeService bankOfficeService) {
@@ -51,10 +50,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee getEmployeeById(UUID id) {
+    public Employee getEmployeeById(int id) {
         Employee employee = employeesTable.get(id);
         if (employee == null) {
-            System.err.println("Employee with id " + id.toString() + " is not found");
+            System.err.println("Employee with id " + id + " is not found");
         }
         return employee;
     }

@@ -1,30 +1,35 @@
 package tech.reliab.course.morozovda.bank.entity;
 
-import java.util.UUID;
-
 public class Account {
-    protected UUID id;
+    private static int currentId;
+    protected int id;
     protected Client client;
     protected Bank bank;
 
+    private void initId() {
+        id = currentId++;
+    }
+
     public Account() {
+        initId();
         initWithDefaults();
     }
 
     public Account(Client client, Bank bank) {
+        initId();
         initWithDefaults();
         this.client = client;
         this.bank = bank;
     }
 
-    public Account(UUID id, Client client, Bank bank) {
+    public Account(int id, Client client, Bank bank) {
         this.id = id;
         this.client = client;
         this.bank = bank;
     }
 
     public Account(Account account) {
-        this.id = UUID.fromString(account.id.toString());
+        this.id = account.id;
         this.client = new Client(account.client);
         this.bank = new Bank(account.bank);
     }
@@ -34,15 +39,15 @@ public class Account {
         return "Account:{" +
                 "\n id='" + getId() + "'" +
                 ",\n client='" + getClient() + "'" +
-                ",\n bank='" + getBank() + "'" +
+                ",\n bank='" + getBank().getName() + "'" +
                 "\n}";
     }
 
-    public UUID getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -63,7 +68,6 @@ public class Account {
     }
 
     private void initWithDefaults() {
-        id = UUID.randomUUID();
         client = null;
         bank = null;
     }

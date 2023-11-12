@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
@@ -15,13 +14,13 @@ import tech.reliab.course.morozovda.bank.service.BankService;
 
 public class BankOfficeServiceImpl implements BankOfficeService {
 
-    private final Map<UUID, BankOffice> bankOfficesTable = new HashMap<>();
-    private final Map<UUID, List<Employee>> employeesByOfficeIdTable = new HashMap<>();
-    private final Map<UUID, List<BankAtm>> atmsByOfficeIdTable = new HashMap<>();
+    private final Map<Integer, BankOffice> bankOfficesTable = new HashMap<>();
+    private final Map<Integer, List<Employee>> employeesByOfficeIdTable = new HashMap<>();
+    private final Map<Integer, List<BankAtm>> atmsByOfficeIdTable = new HashMap<>();
     private final BankService bankService;
 
     @Override
-    public List<Employee> getAllEmployeesByOfficeId(UUID id) {
+    public List<Employee> getAllEmployeesByOfficeId(int id) {
         return employeesByOfficeIdTable.get(id);
     }
 
@@ -31,16 +30,16 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public BankOffice getBankOfficeById(UUID id) {
+    public BankOffice getBankOfficeById(int id) {
         BankOffice office = bankOfficesTable.get(id);
         if (office == null) {
-            System.err.println("Office with id " + id.toString() + " is not found");
+            System.err.println("Office with id " + id + " is not found");
         }
         return office;
     }
 
     @Override
-    public void printBankOfficeData(UUID id) {
+    public void printBankOfficeData(int id) {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice == null) {
             return;
@@ -150,7 +149,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean installAtm(UUID id, BankAtm bankAtm) {
+    public boolean installAtm(int id, BankAtm bankAtm) {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice != null && bankAtm != null) {
             if (!bankOffice.getIsAtmPlaceable()) {
@@ -189,7 +188,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean addEmployee(UUID id, Employee employee) {
+    public boolean addEmployee(int id, Employee employee) {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice != null && employee != null) {
             employee.setBankOffice(bankOffice);

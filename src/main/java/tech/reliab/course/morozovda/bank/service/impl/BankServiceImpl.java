@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
@@ -19,9 +18,9 @@ import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class BankServiceImpl implements BankService {
-    private final Map<UUID, Bank> banksTable = new HashMap<>();
-    private final Map<UUID, List<BankOffice>> officesByBankIdTable = new HashMap<>();
-    private final Map<UUID, List<Client>> clientsByBankIdTable = new HashMap<>();
+    private final Map<Integer, Bank> banksTable = new HashMap<>();
+    private final Map<Integer, List<BankOffice>> officesByBankIdTable = new HashMap<>();
+    private final Map<Integer, List<Client>> clientsByBankIdTable = new HashMap<>();
     private BankOfficeService bankOfficeService;
     private ClientService clientService;
 
@@ -36,7 +35,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<BankOffice> getAllOfficesByBankId(UUID id) {
+    public List<BankOffice> getAllOfficesByBankId(int id) {
         Bank bank = getBankById(id);
         if (bank != null) {
             List<BankOffice> bankOffices = officesByBankIdTable.get(id);
@@ -97,16 +96,16 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Bank getBankById(UUID bankId) {
+    public Bank getBankById(int bankId) {
         Bank bank = banksTable.get(bankId);
         if (bank == null) {
-            System.err.println("Bank with id " + bankId.toString() + " is not found");
+            System.err.println("Bank with id " + bankId + " is not found");
         }
         return bank;
     }
 
     @Override
-    public void printBankData(UUID bankId) {
+    public void printBankData(int bankId) {
         Bank bank = getBankById(bankId);
         if (bank == null) {
             return;
@@ -132,7 +131,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean deleteBankById(UUID bankId) {
+    public boolean deleteBankById(int bankId) {
         return true;
     }
 
@@ -142,7 +141,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addOffice(UUID bankId, BankOffice bankOffice) {
+    public boolean addOffice(int bankId, BankOffice bankOffice) {
         Bank bank = getBankById(bankId);
         if (bank != null && bankOffice != null) {
             bankOffice.setBank(bank);
@@ -157,7 +156,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean removeOffice(UUID bankId, BankOffice bankOffice) {
+    public boolean removeOffice(int bankId, BankOffice bankOffice) {
         Bank bank = getBankById(bankId);
         int officeIndex = officesByBankIdTable.get(bankId).indexOf(bankOffice);
         if (bank != null && officeIndex >= 0) {
@@ -179,7 +178,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addClient(UUID id, Client client) {
+    public boolean addClient(int id, Client client) {
         Bank bank = getBankById(id);
         if (bank != null && client != null) {
             client.setBank(bank);
@@ -232,7 +231,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean depositMoney(UUID id, BigDecimal amount) {
+    public boolean depositMoney(int id, BigDecimal amount) {
         Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot deposit money to uninitialized bank");
@@ -249,7 +248,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean withdrawMoney(UUID id, BigDecimal amount) {
+    public boolean withdrawMoney(int id, BigDecimal amount) {
         Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot withdraw money, bank is null");

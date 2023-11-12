@@ -2,9 +2,7 @@ package tech.reliab.course.morozovda.bank.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
-import tech.reliab.course.morozovda.bank.entity.Account;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
@@ -12,19 +10,19 @@ import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 public interface ClientService {
     Client create(Client client);
 
-    public void printClientData(UUID id, boolean withAccounts);
+    public void printClientData(int id, boolean withAccounts);
 
-    public Client getClientById(UUID id);
+    public Client getClientById(int id);
 
     public List<Client> getAllClients();
 
-    public boolean addPaymentAccount(UUID id, PaymentAccount account);
+    public boolean addPaymentAccount(int id, PaymentAccount account);
 
-    public boolean addCreditAccount(UUID id, CreditAccount account);
+    public boolean addCreditAccount(int id, CreditAccount account);
 
-    public List<PaymentAccount> getAllPaymentAccountsByClientId(UUID id);
+    public List<PaymentAccount> getAllPaymentAccountsByClientId(int id);
 
-    public List<CreditAccount> getAllCreditAccountsByClientId(UUID id);
+    public List<CreditAccount> getAllCreditAccountsByClientId(int id);
 
     BigDecimal calculateCreditRating(Client client);
 }

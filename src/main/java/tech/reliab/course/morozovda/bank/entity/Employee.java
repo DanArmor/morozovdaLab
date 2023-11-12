@@ -56,7 +56,7 @@ public class Employee extends Person {
         return "Employee:{" +
                 "\n person='" + super.toString() + "'" +
                 ",\n job='" + getJob() + "'" +
-                ",\n bank='" + getBank() + "'" +
+                ",\n bank='" + getBank().getName() + "'" +
                 ",\n isWorkingFromHome='" + isIsWorkingFromHome() + "'" +
                 ",\n bankOffice='" + getBankOffice() + "'" +
                 ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +

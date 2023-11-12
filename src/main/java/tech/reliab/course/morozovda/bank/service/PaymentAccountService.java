@@ -2,16 +2,15 @@ package tech.reliab.course.morozovda.bank.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 
 public interface PaymentAccountService {
     PaymentAccount create(PaymentAccount paymentAccount);
 
-    public void printPaymentData(UUID id);
+    public void printPaymentData(int id);
 
-    public PaymentAccount getPaymentAccountById(UUID id);
+    public PaymentAccount getPaymentAccountById(int id);
 
     public List<PaymentAccount> getAllPaymentAccounts();
 

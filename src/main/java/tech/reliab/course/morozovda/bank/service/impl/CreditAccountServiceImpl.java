@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.service.ClientService;
@@ -13,7 +12,7 @@ import tech.reliab.course.morozovda.bank.service.CreditAccountService;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
 
-    private final Map<UUID, CreditAccount> creditAccountsTable = new HashMap<>();
+    private final Map<Integer, CreditAccount> creditAccountsTable = new HashMap<>();
     private final ClientService clientService;
 
     public CreditAccountServiceImpl(ClientService clientService) {
@@ -78,10 +77,10 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     }
 
     @Override
-    public CreditAccount getCreditAccountById(UUID id) {
+    public CreditAccount getCreditAccountById(int id) {
         CreditAccount account = creditAccountsTable.get(id);
         if (account == null) {
-            System.err.println("Credit account with id " + id.toString() + " is not found");
+            System.err.println("Credit account with id " + id + " is not found");
         }
         return account;
     }

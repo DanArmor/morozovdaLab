@@ -2,7 +2,6 @@ package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.UUID;
 
 public class CreditAccount extends Account {
     private LocalDate dateStart;
@@ -48,7 +47,7 @@ public class CreditAccount extends Account {
         this.paymentAccount = paymentAccount;
     }
 
-    public CreditAccount(UUID id, Client client, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
+    public CreditAccount(int id, Client client, Bank bank, LocalDate dateStart, LocalDate dateEnd, int monthCount,
             BigDecimal creditAmount, BigDecimal remainingCreditAmount, BigDecimal montlyPayment,
             BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
         super(id, client, bank);
