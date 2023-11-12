@@ -18,7 +18,12 @@ public class Bank {
     private BigDecimal interestRate;
 
     public Bank() {
+        initId();
         initWithDefaults();
+    }
+
+    private void initId() {
+        id = currentId++;
     }
 
     public Bank(Bank bank) {
@@ -34,6 +39,7 @@ public class Bank {
     }
 
     public Bank(String name) {
+        initId();
         initWithDefaults();
         this.name = name;
     }
@@ -132,7 +138,6 @@ public class Bank {
     }
 
     private void initWithDefaults() {
-        id = currentId++;
         name = "No name";
         officeCount = 0;
         atmCount = 0;

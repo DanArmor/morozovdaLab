@@ -17,7 +17,12 @@ public class BankOffice {
     private BigDecimal totalMoney;
     private BigDecimal rentPrice;
 
+    private void initId() {
+        id = currentId++;
+    }
+
     public BankOffice(String name, String address) {
+        initId();
         initWithDefaults();
         this.name = name;
         this.address = address;
@@ -43,6 +48,7 @@ public class BankOffice {
     public BankOffice(String name, String address, Bank bank, boolean isWorking, boolean isAtmPlaceable,
             int atmCount, boolean isCreditAvailable, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable,
             BigDecimal totalMoney, BigDecimal rentPrice) {
+        initId();
         initWithDefaults();
         this.name = name;
         this.address = address;
@@ -207,7 +213,6 @@ public class BankOffice {
     }
 
     private void initWithDefaults() {
-        id = currentId++;
         name = "No name";
         address = "No address";
         bank = null;

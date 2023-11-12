@@ -1,7 +1,6 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 public class BankAtm {
     public enum Status {
@@ -9,6 +8,7 @@ public class BankAtm {
         WORKING,
         NO_MONEY
     }
+
     private static int currentId;
     private int id;
     private String name;
@@ -21,6 +21,10 @@ public class BankAtm {
     private boolean isCashDepositAvailable;
     private BigDecimal totalMoney;
     private BigDecimal maintenanceCost;
+
+    private void initId() {
+        id = currentId++;
+    }
 
     public BankAtm(BankAtm bankAtm) {
         this.id = bankAtm.id;
@@ -37,10 +41,12 @@ public class BankAtm {
     }
 
     public BankAtm() {
+        initId();
         initWithDefaults();
     }
 
     public BankAtm(String name, String address) {
+        initId();
         initWithDefaults();
         this.name = name;
         this.address = address;
@@ -49,6 +55,7 @@ public class BankAtm {
     public BankAtm(String name, String address, Status status, Bank bank, BankOffice bankOffice,
             Employee employee, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable, BigDecimal totalMoney,
             BigDecimal maintenanceCost) {
+        initId();
         initWithDefaults();
         this.name = name;
         this.address = address;
@@ -192,7 +199,6 @@ public class BankAtm {
     }
 
     private void initWithDefaults() {
-        id = currentId++;
         name = "No name";
         address = "No address";
         status = Status.NOT_WORKING;

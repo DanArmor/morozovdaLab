@@ -6,11 +6,17 @@ public class Account {
     protected Client client;
     protected Bank bank;
 
+    private void initId() {
+        id = currentId++;
+    }
+
     public Account() {
+        initId();
         initWithDefaults();
     }
 
     public Account(Client client, Bank bank) {
+        initId();
         initWithDefaults();
         this.client = client;
         this.bank = bank;
@@ -62,7 +68,6 @@ public class Account {
     }
 
     private void initWithDefaults() {
-        id = currentId++;
         client = null;
         bank = null;
     }

@@ -9,7 +9,12 @@ public class Person {
     protected String name;
     protected LocalDate birthdDate;
 
+    private void initId() {
+        id = currentId++;
+    }
+
     public Person() {
+        initId();
         initWithDefaults();
     }
 
@@ -20,6 +25,7 @@ public class Person {
     }
 
     public Person(String name, LocalDate birthDate) {
+        initId();
         initWithDefaults();
         this.name = name;
         this.birthdDate = birthDate;
@@ -65,7 +71,6 @@ public class Person {
     }
 
     private void initWithDefaults() {
-        id = currentId++;
         name = "No name";
         birthdDate = null;
     }

@@ -186,6 +186,7 @@ public class Main {
                                 }
                                 System.out.println("Enter bank id:");
                                 int bankIdToPrint = scanner.nextInt();
+                                scanner.nextLine();
                                 bankService.printBankData(bankIdToPrint);
                         } else if (action.equals("c")) {
                                 System.out.println(
@@ -196,6 +197,7 @@ public class Main {
                                 }
                                 System.out.println("Enter client id:");
                                 int clientIdToPrint = scanner.nextInt();
+                                scanner.nextLine();
                                 clientService.printClientData(clientIdToPrint, true);
                         } else if (action.equals("q")) {
                                 break;
