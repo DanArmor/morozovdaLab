@@ -1,14 +1,13 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.UUID;
 
 public class Bank {
+    private static int currentId;
     public static final BigDecimal MAX_RATING = new BigDecimal("100");
     public static final BigDecimal MAX_TOTAL_MONEY = new BigDecimal("1000000");
     public static final BigDecimal MAX_INTEREST_RATE = new BigDecimal("20");
-    private UUID id;
+    private int id;
     private String name;
     private int officeCount;
     private int atmCount;
@@ -23,7 +22,7 @@ public class Bank {
     }
 
     public Bank(Bank bank) {
-        this.id = UUID.fromString(bank.id.toString());
+        this.id = bank.id;
         this.name = bank.name;
         this.officeCount = bank.officeCount;
         this.atmCount = bank.atmCount;
@@ -39,7 +38,7 @@ public class Bank {
         this.name = name;
     }
 
-    public Bank(UUID id, String name) {
+    public Bank(int id, String name) {
         initWithDefaults();
         this.id = id;
         this.name = name;
@@ -60,11 +59,11 @@ public class Bank {
                 "\n}";
     }
 
-    public UUID getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -133,7 +132,7 @@ public class Bank {
     }
 
     private void initWithDefaults() {
-        id = UUID.randomUUID();
+        id = currentId++;
         name = "No name";
         officeCount = 0;
         atmCount = 0;

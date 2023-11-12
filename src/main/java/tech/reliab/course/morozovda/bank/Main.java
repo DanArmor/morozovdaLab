@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
@@ -61,8 +60,8 @@ public class Main {
                 for (Bank bank : banks) {
                         for (int i = 1; i <= 3; i++) {
                                 bankOfficeService.create(new BankOffice(
-                                                "Office №" + String.valueOf(i) + " of " + bank.getName(),
-                                                "Westeros, Red Keep st., " + String.valueOf(i),
+                                                "Office №" + i + " of " + bank.getName(),
+                                                "Westeros, Red Keep st., " + i,
                                                 bank,
                                                 true,
                                                 true,
@@ -96,7 +95,7 @@ public class Main {
                 for (BankOffice office : offices) {
                         for (int i = 1; i <= 3; i++) {
                                 atmService.create(new BankAtm(
-                                                "Atm " + String.valueOf(i),
+                                                "Atm " + i,
                                                 office.getAddress(),
                                                 BankAtm.Status.WORKING,
                                                 office.getBank(),
@@ -186,16 +185,17 @@ public class Main {
                                         System.out.println("id: " + bank.getId() + " - " + bank.getName());
                                 }
                                 System.out.println("Enter bank id:");
-                                UUID bankIdToPrint = UUID.fromString(scanner.nextLine());
+                                int bankIdToPrint = scanner.nextInt();
                                 bankService.printBankData(bankIdToPrint);
                         } else if (action.equals("c")) {
                                 System.out.println(
-                                                "Number of clients in the system: " + clientService.getAllClients().size());
+                                                "Number of clients in the system: "
+                                                                + clientService.getAllClients().size());
                                 for (Client client : clientService.getAllClients()) {
                                         System.out.println("id: " + client.getId() + " - " + client.getName());
                                 }
                                 System.out.println("Enter client id:");
-                                UUID clientIdToPrint = UUID.fromString(scanner.nextLine());
+                                int clientIdToPrint = scanner.nextInt();
                                 clientService.printClientData(clientIdToPrint, true);
                         } else if (action.equals("q")) {
                                 break;

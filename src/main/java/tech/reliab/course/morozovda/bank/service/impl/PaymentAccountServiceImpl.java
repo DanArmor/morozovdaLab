@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 import tech.reliab.course.morozovda.bank.service.ClientService;
@@ -13,7 +12,7 @@ import tech.reliab.course.morozovda.bank.service.PaymentAccountService;
 
 public class PaymentAccountServiceImpl implements PaymentAccountService {
 
-    private final Map<UUID, PaymentAccount> paymentAccountsTable = new HashMap<>();
+    private final Map<Integer, PaymentAccount> paymentAccountsTable = new HashMap<>();
     private final ClientService clientService;
 
     public PaymentAccountServiceImpl(ClientService clientService) {
@@ -83,16 +82,16 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
     }
 
     @Override
-    public PaymentAccount getPaymentAccountById(UUID id) {
+    public PaymentAccount getPaymentAccountById(int id) {
         PaymentAccount account = paymentAccountsTable.get(id);
         if (account == null) {
-            System.err.println("Payment account with id " + id.toString() + " is not found");
+            System.err.println("Payment account with id " + id + " is not found");
         }
         return account;
     }
 
     @Override
-    public void printPaymentData(UUID id) {
+    public void printPaymentData(int id) {
         PaymentAccount account = getPaymentAccountById(id);
         if (account == null) {
             return;

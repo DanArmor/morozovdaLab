@@ -1,10 +1,10 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class BankOffice {
-    private UUID id;
+    private static int currentId;
+    private int id;
     private String name;
     private String address;
     private Bank bank;
@@ -23,7 +23,7 @@ public class BankOffice {
         this.address = address;
     }
 
-    public BankOffice(UUID id, String name, String address, Bank bank, boolean isWorking, boolean isAtmPlaceable,
+    public BankOffice(int id, String name, String address, Bank bank, boolean isWorking, boolean isAtmPlaceable,
             int atmCount, boolean isCreditAvailable, boolean isCashWithdrawalAvailable, boolean isCashDepositAvailable,
             BigDecimal totalMoney, BigDecimal rentPrice) {
         this.id = id;
@@ -58,7 +58,7 @@ public class BankOffice {
     }
 
     public BankOffice(BankOffice bankOffice) {
-        this.id = UUID.fromString(bankOffice.id.toString());
+        this.id = bankOffice.id;
         this.name = bankOffice.name;
         this.address = bankOffice.address;
         this.bank = new Bank(bankOffice.bank);
@@ -78,7 +78,7 @@ public class BankOffice {
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
                 ",\n address='" + getAddress() + "'" +
-                ",\n bank='" + getBank() + "'" +
+                ",\n bank='" + getBank().getName() + "'" +
                 ",\n isWorking='" + isIsWorking() + "'" +
                 ",\n isAtmPlaceable='" + isIsAtmPlaceable() + "'" +
                 ",\n atmCount='" + getAtmCount() + "'" +
@@ -90,11 +90,11 @@ public class BankOffice {
                 "\n}";
     }
 
-    public UUID getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -207,7 +207,7 @@ public class BankOffice {
     }
 
     private void initWithDefaults() {
-        id = UUID.randomUUID();
+        id = currentId++;
         name = "No name";
         address = "No address";
         bank = null;

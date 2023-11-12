@@ -1,10 +1,11 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.time.LocalDate;
-import java.util.UUID;
+import java.time.format.DateTimeFormatter;
 
 public class Person {
-    protected UUID id;
+    private static int currentId;
+    protected int id;
     protected String name;
     protected LocalDate birthdDate;
 
@@ -13,7 +14,7 @@ public class Person {
     }
 
     public Person(Person person) {
-        this.id = UUID.fromString(person.id.toString());
+        this.id = person.id;
         this.name = person.name;
         this.birthdDate = person.birthdDate;
     }
@@ -24,7 +25,7 @@ public class Person {
         this.birthdDate = birthDate;
     }
 
-    public Person(UUID id, String name, LocalDate birthdDate) {
+    public Person(int id, String name, LocalDate birthdDate) {
         this.id = id;
         this.name = name;
         this.birthdDate = birthdDate;
@@ -35,15 +36,15 @@ public class Person {
         return "Person:{" +
                 "\n id='" + getId() + "'" +
                 ",\n name='" + getName() + "'" +
-                ",\n birthdDate='" + getBirthdDate() + "'" +
+                ",\n birthdDate='" + getBirthdDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")) + "'" +
                 "\n}";
     }
 
-    public UUID getId() {
+    public int getId() {
         return this.id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -64,7 +65,7 @@ public class Person {
     }
 
     private void initWithDefaults() {
-        id = UUID.randomUUID();
+        id = currentId++;
         name = "No name";
         birthdDate = null;
     }

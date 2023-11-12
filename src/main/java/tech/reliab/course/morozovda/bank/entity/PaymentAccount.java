@@ -1,7 +1,6 @@
 package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 public class PaymentAccount extends Account {
     private BigDecimal balance;
@@ -21,7 +20,7 @@ public class PaymentAccount extends Account {
         this.balance = balance;
     }
 
-    public PaymentAccount(UUID id, Client client, Bank bank, BigDecimal balance) {
+    public PaymentAccount(int id, Client client, Bank bank, BigDecimal balance) {
         super(id, client, bank);
         this.balance = balance;
     }

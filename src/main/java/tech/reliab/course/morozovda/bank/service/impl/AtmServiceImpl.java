@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 
 public class AtmServiceImpl implements AtmService {
-    private final Map<UUID, BankAtm> atmsTable = new HashMap<>();
+    private final Map<Integer, BankAtm> atmsTable = new HashMap<>();
     private final BankOfficeService bankOfficeService;
 
     @Override
@@ -21,10 +20,10 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public BankAtm getBankAtmById(UUID id) {
+    public BankAtm getBankAtmById(int id) {
         BankAtm atm = atmsTable.get(id);
         if (atm == null) {
-            System.err.println("Atm with id " + id.toString() + " is not found");
+            System.err.println("Atm with id " + id + " is not found");
         }
         return atm;
     }
