@@ -100,4 +100,10 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
         System.out.println(account);
     }
 
+    @Override
+    public BigDecimal getTotalMoney(int id){
+        PaymentAccount paymentAccount = getPaymentAccountById(id);
+        return paymentAccount.getBalance();
+    }
+
 }

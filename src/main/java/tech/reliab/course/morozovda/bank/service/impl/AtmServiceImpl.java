@@ -97,4 +97,9 @@ public class AtmServiceImpl implements AtmService {
         return true;
     }
 
+    @Override
+    public boolean isAtmSuitable(BankAtm bankAtm, BigDecimal money) {
+        return bankAtm.getTotalMoney().compareTo(money) >= 0;
+    }
+
 }

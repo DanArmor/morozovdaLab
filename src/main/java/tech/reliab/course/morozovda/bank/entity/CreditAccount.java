@@ -62,6 +62,21 @@ public class CreditAccount extends Account {
         this.paymentAccount = paymentAccount;
     }
 
+    public CreditAccount(Client client, Bank bank, LocalDate dateStart, int monthCount,
+            BigDecimal creditAmount, BigDecimal montlyPayment,
+            BigDecimal interestRate, Employee employee, PaymentAccount paymentAccount) {
+        super(client, bank);
+        this.dateStart = dateStart;
+        this.dateEnd = dateStart.plusMonths(monthCount);
+        this.monthCount = monthCount;
+        this.creditAmount = creditAmount;
+        this.remainingCreditAmount = creditAmount;
+        this.montlyPayment = montlyPayment;
+        this.interestRate = interestRate;
+        this.employee = employee;
+        this.paymentAccount = paymentAccount;
+    }
+
     @Override
     public String toString() {
         return "CreditAccount:{" +

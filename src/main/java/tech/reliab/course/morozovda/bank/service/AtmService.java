@@ -15,4 +15,6 @@ public interface AtmService {
     boolean depositMoney(BankAtm bankAtm, BigDecimal amount);
 
     boolean withdrawMoney(BankAtm bankAtm, BigDecimal amount);
+
+    public boolean isAtmSuitable(BankAtm bankAtm, BigDecimal money);
 }

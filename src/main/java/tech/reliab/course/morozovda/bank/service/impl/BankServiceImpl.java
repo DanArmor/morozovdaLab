@@ -12,6 +12,7 @@ import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.exception.CreditException;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.ClientService;
@@ -147,7 +148,7 @@ public class BankServiceImpl implements BankService {
             bankOffice.setBank(bank);
             bank.setOfficeCount(bank.getOfficeCount() + 1);
             bank.setAtmCount(bank.getAtmCount() + bankOffice.getAtmCount());
-            depositMoney(bankId, bankOffice.getTotalMoney());
+            bank.setTotalMoney(bank.getTotalMoney().add(bankOffice.getTotalMoney()));
             List<BankOffice> bankOffices = getAllOfficesByBankId(bankId);
             bankOffices.add(bankOffice);
             return true;
@@ -268,5 +269,41 @@ public class BankServiceImpl implements BankService {
         bank.setTotalMoney(bank.getTotalMoney().subtract(amount));
         return true;
 
+    }
+
+    @Override
+    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws CreditException {
+        List<Bank> banksSuitable = new ArrayList<>();
+        for (Bank bank : banksTable.values()) {
+            if (isBankSuitable(bank, sum)) {
+                banksSuitable.add(bank);
+            }
+        }
+
+        if (banksSuitable.isEmpty()) {
+            throw new CreditException();
+        }
+
+        return banksSuitable;
+    }
+
+    @Override
+    public boolean isBankSuitable(Bank bank, BigDecimal money) {
+        List<BankOffice> bankOfficeSuitable = getBankOfficeSuitableInBank(bank, money);
+        return !bankOfficeSuitable.isEmpty();
+    }
+
+    @Override
+    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) {
+        List<BankOffice> bankOfficesByBank = getAllOfficesByBankId(bank.getId());
+        List<BankOffice> suitableBankOffice = new ArrayList<>();
+
+        for (BankOffice bankOffice : bankOfficesByBank) {
+            if (bankOfficeService.isSuitableBankOffice(bankOffice, money)) {
+                suitableBankOffice.add(bankOffice);
+            }
+        }
+
+        return suitableBankOffice;
     }
 }

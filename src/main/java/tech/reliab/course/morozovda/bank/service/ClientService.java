@@ -25,4 +25,6 @@ public interface ClientService {
     public List<CreditAccount> getAllCreditAccountsByClientId(int id);
 
     BigDecimal calculateCreditRating(Client client);
+
+    public PaymentAccount getBestPaymentAccount(int id);
 }

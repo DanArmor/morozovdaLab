@@ -7,6 +7,7 @@ import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.exception.CreditException;
 import tech.reliab.course.morozovda.bank.entity.Client;
 
 public interface BankService {
@@ -63,4 +64,14 @@ public interface BankService {
 
     // Оформление заявки на кредит
     public boolean approveCredit(Bank bank, CreditAccount account, Employee employee);
+
+    // Возвращает банки, подходящие для выдачи кредита с указанной суммой и
+    // длительностью
+    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws CreditException;
+
+    // Подходит ли банк для выдачи суммы
+    public boolean isBankSuitable(Bank bank, BigDecimal money);
+
+    // Возвращает список офисов, подходящих для выдачи указанной суммы в банке
+    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money);
 }

@@ -17,4 +17,6 @@ public interface PaymentAccountService {
     boolean depositMoney(PaymentAccount paymentAccount, BigDecimal amount);
 
     boolean withdrawMoney(PaymentAccount paymentAccount, BigDecimal amount);
+
+    public BigDecimal getTotalMoney(int id);
 }

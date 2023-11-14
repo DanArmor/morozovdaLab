@@ -58,4 +58,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employee;
     }
 
+    @Override
+    public boolean isEmployeeSuitable(Employee employee) {
+        return employee.getIsCreditAvailable();
+    }
+
 }

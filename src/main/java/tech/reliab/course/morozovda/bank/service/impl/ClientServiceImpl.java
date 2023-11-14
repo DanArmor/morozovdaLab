@@ -2,15 +2,18 @@ package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.ClientService;
+import tech.reliab.course.morozovda.bank.service.PaymentAccountService;
 import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class ClientServiceImpl implements ClientService {
@@ -128,6 +131,16 @@ public class ClientServiceImpl implements ClientService {
             }
         }
 
+    }
+
+    @Override
+    public PaymentAccount getBestPaymentAccount(int id) {
+        List<PaymentAccount> paymentAccounts = getAllPaymentAccountsByClientId(id);
+        PaymentAccount paymentAccount = paymentAccounts
+                .stream()
+                .min(Comparator.comparing(PaymentAccount::getBalance))
+                .orElseThrow(NoSuchElementException::new);
+        return paymentAccount;
     }
 
 }
