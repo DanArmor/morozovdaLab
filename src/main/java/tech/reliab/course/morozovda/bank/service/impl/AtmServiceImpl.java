@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
+import tech.reliab.course.morozovda.bank.exception.NotEnoughMoneyException;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 
@@ -20,10 +23,11 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public BankAtm getBankAtmById(int id) {
+    public BankAtm getBankAtmById(int id) throws NotFoundException {
         BankAtm atm = atmsTable.get(id);
         if (atm == null) {
             System.err.println("Atm with id " + id + " is not found");
+            throw new NotFoundException(id);
         }
         return atm;
     }
@@ -33,7 +37,7 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public BankAtm create(BankAtm bankAtm) {
+    public BankAtm create(BankAtm bankAtm) throws NotFoundException, NotUniqueIdException {
         if (bankAtm == null) {
             return null;
         }
@@ -50,6 +54,9 @@ public class AtmServiceImpl implements AtmService {
             return null;
         }
         BankAtm atm = new BankAtm(bankAtm);
+        if (atmsTable.containsKey(atm.getId())) {
+            throw new NotUniqueIdException(atm.getId());
+        }
         atmsTable.put(atm.getId(), atm);
         bankOfficeService.installAtm(atm.getBankOffice().getId(), atm);
         return atm;
@@ -75,7 +82,7 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public boolean withdrawMoney(BankAtm bankAtm, BigDecimal amount) {
+    public boolean withdrawMoney(BankAtm bankAtm, BigDecimal amount) throws NotEnoughMoneyException {
         if (bankAtm == null) {
             System.err.println("Error: BankAtm cannot withdraw money - non existing ATM");
             return false;
@@ -90,11 +97,16 @@ public class AtmServiceImpl implements AtmService {
         }
         if (bankAtm.getTotalMoney().compareTo(amount) < 0) {
             System.err.println("Error: BankAtm cannot withdraw money - ATM does not have enough money");
-            return false;
+            throw new NotEnoughMoneyException();
         }
         bankAtm.setTotalMoney(bankAtm.getTotalMoney().subtract(amount));
         // TODO: Добавить механизм взаимодействия с банком и офисом
         return true;
+    }
+
+    @Override
+    public boolean isAtmSuitable(BankAtm bankAtm, BigDecimal money) {
+        return bankAtm.getTotalMoney().compareTo(money) >= 0;
     }
 
 }

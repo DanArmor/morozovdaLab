@@ -13,6 +13,10 @@ import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.CreditException;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
@@ -32,7 +36,7 @@ import tech.reliab.course.morozovda.bank.utils.Consts;
 import static tech.reliab.course.morozovda.bank.utils.Consts.*;
 
 public class Main {
-        public static void main(String[] args) {
+        public static void main(String[] args) throws NotFoundException, NotUniqueIdException {
                 Random random = new Random();
                 Scanner scanner = new Scanner(System.in);
                 new Consts();
@@ -40,9 +44,11 @@ public class Main {
                 // Создание сервисов
                 BankService bankService = new BankServiceImpl();
                 BankOfficeService bankOfficeService = new BankOfficeServiceImpl(bankService);
-                bankService.setBankOfficeService(bankOfficeService);
                 EmployeeService employeeService = new EmployeeServiceImpl(bankOfficeService);
+                bankOfficeService.setEmployeeService(employeeService);
                 AtmService atmService = new AtmServiceImpl(bankOfficeService);
+                bankOfficeService.setAtmService(atmService);
+                bankService.setBankOfficeService(bankOfficeService);
                 ClientService clientService = new ClientServiceImpl(bankService);
                 bankService.setClientService(clientService);
                 PaymentAccountService paymentAccountService = new PaymentAccountServiceImpl(clientService);
@@ -69,7 +75,7 @@ public class Main {
                                                 true,
                                                 true,
                                                 true,
-                                                new BigDecimal("20000"),
+                                                new BigDecimal("0"),
                                                 new BigDecimal(100 * i)));
                         }
                 }
@@ -107,7 +113,7 @@ public class Main {
                                                                                 .size())),
                                                 true,
                                                 true,
-                                                new BigDecimal("0"),
+                                                new BigDecimal("1000"),
                                                 new BigDecimal(random.nextDouble() * 25)));
                         }
                 }
@@ -168,41 +174,95 @@ public class Main {
                         }
                 }
 
-                System.out.println("\nLab #2.");
+                System.out.println("\nLab #3.");
 
                 while (true) {
-                        System.out.println("\nPick an action: ");
-                        System.out.println("b - check bank data by bank id");
-                        System.out.println("c - check client data by client id");
-                        System.out.println("q - quit program");
+                        try {
+                                System.out.println("\nPick an action: ");
+                                System.out.println("b - check bank data by bank id");
+                                System.out.println("c - check client data by client id");
+                                System.out.println("t - take credit");
+                                System.out.println("q - quit program");
 
-                        String action = scanner.nextLine();
+                                String action = scanner.nextLine();
 
-                        if (action.equals("b")) {
-                                System.out.println(
-                                                "Number of banks in the system: " + bankService.getAllBanks().size());
-                                for (Bank bank : bankService.getAllBanks()) {
-                                        System.out.println("id: " + bank.getId() + " - " + bank.getName());
+                                if (action.equals("b")) {
+                                        System.out.println(
+                                                        "Number of banks in the system: "
+                                                                        + bankService.getAllBanks().size());
+                                        for (Bank bank : bankService.getAllBanks()) {
+                                                System.out.println("id: " + bank.getId() + " - " + bank.getName());
+                                        }
+                                        System.out.println("Enter bank id:");
+                                        int bankIdToPrint = scanner.nextInt();
+                                        scanner.nextLine();
+                                        bankService.printBankData(bankIdToPrint);
+                                } else if (action.equals("c")) {
+                                        System.out.println(
+                                                        "Number of clients in the system: "
+                                                                        + clientService.getAllClients().size());
+                                        for (Client client : clientService.getAllClients()) {
+                                                System.out.println("id: " + client.getId() + " - " + client.getName());
+                                        }
+                                        System.out.println("Enter client id:");
+                                        int clientIdToPrint = scanner.nextInt();
+                                        scanner.nextLine();
+                                        clientService.printClientData(clientIdToPrint, true);
+                                } else if (action.equals("t")) {
+                                        System.out.println("What client should take the credit?");
+                                        for (Client client : clientService.getAllClients()) {
+                                                System.out.println("id: " + client.getId() + " - " + client.getName());
+                                        }
+                                        System.out.println("Enter client id:");
+                                        int clientId = scanner.nextInt();
+                                        scanner.nextLine();
+                                        System.out.println("Enter total credit amount");
+                                        BigDecimal amount = new BigDecimal(scanner.nextLine());
+                                        System.out.println("Enter duration in months:");
+                                        int months = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        List<Bank> suitableBanks = bankService.getBanksSuitable(amount, months);
+                                        System.out.println("List of suitable banks:");
+                                        for (Bank bank : suitableBanks) {
+                                                System.out.println("id: " + bank.getId() + " - " + bank.getName());
+                                        }
+                                        System.out.println("Enter bank id:");
+                                        int bankId = scanner.nextInt();
+                                        scanner.nextLine();
+                                        Bank bank = bankService.getBankById(bankId);
+                                        BankOffice bankOffice = bankService.getBankOfficeSuitableInBank(bank, amount)
+                                                        .get(0);
+                                        Employee employee = bankOfficeService.getSuitableEmployeeInOffice(bankOffice)
+                                                        .get(0);
+                                        PaymentAccount paymentAccount;
+                                        // Если платежного счета нет - создадим его
+                                        try {
+                                                paymentAccount = clientService.getBestPaymentAccount(clientId);
+                                        } catch (NoPaymentAccount e) {
+                                                paymentAccount = paymentAccountService.create(new PaymentAccount(
+                                                                clientService.getClientById(clientId),
+                                                                clientService.getClientById(clientId).getBank(),
+                                                                new BigDecimal("0")));
+                                        }
+                                        CreditAccount creditAccount = creditAccountService.create(new CreditAccount(
+                                                        clientService.getClientById(clientId), bank, LocalDate.now(),
+                                                        months,
+                                                        amount, new BigDecimal("0"), new BigDecimal("0"), employee,
+                                                        paymentAccount));
+                                        if (bankService.approveCredit(bank, creditAccount, employee)) {
+                                                System.out.println("Credit was approved");
+                                                System.out.println("id: " + creditAccount.getId());
+                                        } else {
+                                                System.out.println("Credit was not approved");
+                                        }
+                                } else if (action.equals("q")) {
+                                        break;
+                                } else {
+                                        System.out.println("Error: unknown action. Please, try again");
                                 }
-                                System.out.println("Enter bank id:");
-                                int bankIdToPrint = scanner.nextInt();
-                                scanner.nextLine();
-                                bankService.printBankData(bankIdToPrint);
-                        } else if (action.equals("c")) {
-                                System.out.println(
-                                                "Number of clients in the system: "
-                                                                + clientService.getAllClients().size());
-                                for (Client client : clientService.getAllClients()) {
-                                        System.out.println("id: " + client.getId() + " - " + client.getName());
-                                }
-                                System.out.println("Enter client id:");
-                                int clientIdToPrint = scanner.nextInt();
-                                scanner.nextLine();
-                                clientService.printClientData(clientIdToPrint, true);
-                        } else if (action.equals("q")) {
-                                break;
-                        } else {
-                                System.out.println("Error: unknown action. Please, try again");
+                        } catch (CreditException e) {
+                                System.err.println(e.getMessage());
                         }
                 }
 
