@@ -8,3 +8,6 @@
 
 #### Лабораторная №2
 Ветка [`lab2`](https://github.com/DanArmor/morozovdaLab/tree/lab2)
+
+#### Лабораторная №3
+Ветка [`lab3`](https://github.com/DanArmor/morozovdaLab/tree/lab3)
