@@ -1,6 +1,7 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -225,8 +226,8 @@ public class BankServiceImpl implements BankService {
             if (bank.getTotalMoney().compareTo(sum) >= 0) {
                 if (employee.isIsCreditAvailable()) {
                     BigDecimal sumMonthPay = sum
-                            .multiply((bank.getInterestRate().divide(new BigDecimal(100)).add(new BigDecimal(1))))
-                            .divide(new BigDecimal(account.getMonthCount()));
+                            .multiply((bank.getInterestRate().divide(new BigDecimal(100), MathContext.DECIMAL128).add(new BigDecimal(1))))
+                            .divide(new BigDecimal(account.getMonthCount()), MathContext.DECIMAL128);
 
                     if (account.getClient().getMonthlyIncome().compareTo(sumMonthPay) >= 0) {
                         if (account.getClient().getCreditRating().compareTo(new BigDecimal(5000)) < 0
@@ -263,10 +264,10 @@ public class BankServiceImpl implements BankService {
             final BigDecimal maxBankInterestRateMargin = Bank.MAX_INTEREST_RATE.subtract(centralBankInterestRate);
             final BigDecimal bankInterestRateMargin = (BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0"))
                     .multiply(maxBankInterestRateMargin))
-                    .multiply((new BigDecimal("110").subtract(rating).divide(new BigDecimal("100"))));
+                    .multiply((new BigDecimal("110").subtract(rating).divide(new BigDecimal("100"), MathContext.DECIMAL128)));
             final BigDecimal interestRate = centralBankInterestRate.add(bankInterestRateMargin);
 
-            bank.setInterestRate(interestRate);
+            bank.setInterestRate(interestRate.multiply(BigRandom.between(new BigDecimal(2), new BigDecimal(10)), MathContext.DECIMAL128));
             return interestRate;
         }
         return new BigDecimal("0");

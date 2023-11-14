@@ -113,7 +113,7 @@ public class Main {
                                                                                 .size())),
                                                 true,
                                                 true,
-                                                new BigDecimal("100"),
+                                                new BigDecimal("1000"),
                                                 new BigDecimal(random.nextDouble() * 25)));
                         }
                 }
@@ -250,9 +250,9 @@ public class Main {
                                                         months,
                                                         amount, new BigDecimal("0"), new BigDecimal("0"), employee,
                                                         paymentAccount));
-                                        if (bankService.approveCredit(bank, null, employee)) {
+                                        if (bankService.approveCredit(bank, creditAccount, employee)) {
                                                 System.out.println("Credit was approved");
-                                                System.out.println(creditAccount);
+                                                System.out.println("id: " + creditAccount.getId());
                                         } else {
                                                 System.out.println("Credit was not approved");
                                         }

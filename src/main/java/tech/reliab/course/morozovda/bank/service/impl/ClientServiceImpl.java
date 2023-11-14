@@ -1,6 +1,7 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -15,7 +16,6 @@ import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.ClientService;
-import tech.reliab.course.morozovda.bank.utils.BigRandom;
 
 public class ClientServiceImpl implements ClientService {
     private final Map<Integer, Client> clientsTable = new HashMap<>();
@@ -40,9 +40,7 @@ public class ClientServiceImpl implements ClientService {
 
         Client createdClient = new Client(client);
 
-        final BigDecimal monthlyIncome = BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0"))
-                .multiply(Client.MAX_MONTHLY_INCOME);
-        createdClient.setMonthlyIncome(monthlyIncome);
+        createdClient.setMonthlyIncome(createdClient.getMonthlyIncome());
         calculateCreditRating(createdClient);
         if (clientsTable.containsKey(createdClient.getId())
                 || paymentAccountsByClientIdTable.containsKey(createdClient.getId())
@@ -60,7 +58,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public BigDecimal calculateCreditRating(Client client) {
         client.setCreditRating(
-                client.getMonthlyIncome().divide(new BigDecimal("1000").multiply(new BigDecimal("100"))));
+                client.getMonthlyIncome().divide(new BigDecimal("10", MathContext.DECIMAL128).multiply(new BigDecimal("100"))));
         return client.getCreditRating();
     }
 
