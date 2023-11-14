@@ -11,6 +11,7 @@ import java.util.NoSuchElementException;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.service.PaymentAccountService;
@@ -134,12 +135,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public PaymentAccount getBestPaymentAccount(int id) {
+    public PaymentAccount getBestPaymentAccount(int id) throws NoPaymentAccount {
         List<PaymentAccount> paymentAccounts = getAllPaymentAccountsByClientId(id);
         PaymentAccount paymentAccount = paymentAccounts
                 .stream()
                 .min(Comparator.comparing(PaymentAccount::getBalance))
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NoPaymentAccount::new);
         return paymentAccount;
     }
 

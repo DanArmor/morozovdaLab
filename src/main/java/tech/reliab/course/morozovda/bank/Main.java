@@ -3,6 +3,7 @@ package tech.reliab.course.morozovda.bank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -230,13 +231,31 @@ public class Main {
                                         int bankId = scanner.nextInt();
                                         scanner.nextLine();
                                         Bank bank = bankService.getBankById(bankId);
-                                        BankOffice bankOffice = bankService.getBankOfficeSuitableInBank(bank, amount).get(0);
-                                        Employee employee = bankOfficeService.getSuitableEmployeeInOffice(bankOffice).get(0);
-                                        PaymentAccount paymentAccount = clientService.getBestPaymentAccount(clientId);
+                                        BankOffice bankOffice = bankService.getBankOfficeSuitableInBank(bank, amount)
+                                                        .get(0);
+                                        Employee employee = bankOfficeService.getSuitableEmployeeInOffice(bankOffice)
+                                                        .get(0);
+                                        PaymentAccount paymentAccount;
+                                        // Если платежного счета нет - создадим его
+                                        try {
+                                                paymentAccount = clientService.getBestPaymentAccount(clientId);
+                                        } catch (NoSuchElementException e) {
+                                                paymentAccount = paymentAccountService.create(new PaymentAccount(
+                                                                clientService.getClientById(clientId),
+                                                                clientService.getClientById(clientId).getBank(),
+                                                                new BigDecimal("0")));
+                                        }
                                         CreditAccount creditAccount = creditAccountService.create(new CreditAccount(
-						clientService.getClientById(clientId), bank, LocalDate.now(), months,
-						amount, new BigDecimal("0"), new BigDecimal("0"), employee, paymentAccount));
-                                        System.out.println(creditAccount);
+                                                        clientService.getClientById(clientId), bank, LocalDate.now(),
+                                                        months,
+                                                        amount, new BigDecimal("0"), new BigDecimal("0"), employee,
+                                                        paymentAccount));
+                                        if (bankService.approveCredit(bank, null, employee)){
+                                                System.out.println("Credit was approved");        
+                                                System.out.println(creditAccount);
+                                        } else {
+                                                System.out.println("Credit was not approved");        
+                                        }
                                 } else if (action.equals("q")) {
                                         break;
                                 } else {

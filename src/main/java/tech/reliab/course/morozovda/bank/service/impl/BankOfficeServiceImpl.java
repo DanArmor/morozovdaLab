@@ -9,6 +9,8 @@ import java.util.Map;
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
@@ -81,7 +83,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public BankOffice create(BankOffice bankOffice) {
+    public BankOffice create(BankOffice bankOffice) throws NotFoundException, NotUniqueIdException {
         if (bankOffice == null) {
             return null;
         }

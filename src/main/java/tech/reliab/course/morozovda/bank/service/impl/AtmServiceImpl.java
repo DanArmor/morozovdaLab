@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 
@@ -33,7 +35,7 @@ public class AtmServiceImpl implements AtmService {
     }
 
     @Override
-    public BankAtm create(BankAtm bankAtm) {
+    public BankAtm create(BankAtm bankAtm) throws NotFoundException, NotUniqueIdException {
         if (bankAtm == null) {
             return null;
         }

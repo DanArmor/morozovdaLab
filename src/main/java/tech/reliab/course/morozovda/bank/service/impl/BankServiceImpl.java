@@ -1,6 +1,7 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -208,8 +209,39 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean approveCredit(Bank bank, CreditAccount account, Employee employee) {
-        return false; // TODO: Механизм одобрения кредитов будет уточнен позже
+    public boolean approveCredit(Bank bank, CreditAccount account, Employee employee) throws CreditException {
+        if ((account != null) && (bank != null) && (employee != null)) {
+
+            BigDecimal sum = account.getCreditAmount();
+
+            if (bank.getTotalMoney().compareTo(sum) >= 0) {
+                if (employee.isIsCreditAvailable()) {
+                    BigDecimal sumMonthPay = sum
+                            .multiply((bank.getInterestRate().divide(new BigDecimal(100)).add(new BigDecimal(1))))
+                            .divide(new BigDecimal(account.getMonthCount()));
+
+                    if (account.getClient().getMonthlyIncome().compareTo(sumMonthPay) >= 0) {
+                        if (account.getClient().getCreditRating().compareTo(new BigDecimal(5000)) < 0 && bank.getRating() > 50) {
+                            return false;
+                        }
+                        account.setEmployee(employee);
+                        account.setMontlyPayment(sumMonthPay);
+                        account.setBank(bank);
+                        account.setEmployee(employee);
+                        account.setInterestRate(bank.getInterestRate());
+
+                        LocalDate dateEnd = account.getDateStart();
+                        dateEnd = dateEnd.plusMonths(account.getMonthCount());
+                        account.setDateEnd(dateEnd);
+                        return true;
+                    } else {
+                        throw new CreditException();
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
