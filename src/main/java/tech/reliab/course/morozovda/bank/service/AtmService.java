@@ -15,9 +15,9 @@ public interface AtmService {
 
     public List<BankAtm> getAllBankAtms();
 
-    boolean depositMoney(BankAtm bankAtm, BigDecimal amount) throws NotFoundException;
+    boolean depositMoney(BankAtm bankAtm, BigDecimal amount);
 
-    boolean withdrawMoney(BankAtm bankAtm, BigDecimal amount) throws NotFoundException, NotEnoughMoneyException;
+    boolean withdrawMoney(BankAtm bankAtm, BigDecimal amount) throws NotEnoughMoneyException;
 
     public boolean isAtmSuitable(BankAtm bankAtm, BigDecimal money);
 }

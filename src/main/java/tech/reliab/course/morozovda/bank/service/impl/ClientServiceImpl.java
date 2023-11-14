@@ -44,7 +44,11 @@ public class ClientServiceImpl implements ClientService {
                 .multiply(Client.MAX_MONTHLY_INCOME);
         createdClient.setMonthlyIncome(monthlyIncome);
         calculateCreditRating(createdClient);
-
+        if (clientsTable.containsKey(createdClient.getId())
+                || paymentAccountsByClientIdTable.containsKey(createdClient.getId())
+                || creditAccountsByClientIdTable.containsKey(createdClient.getId())) {
+            throw new NotUniqueIdException(createdClient.getId());
+        }
         clientsTable.put(createdClient.getId(), createdClient);
         paymentAccountsByClientIdTable.put(createdClient.getId(), new ArrayList<>());
         creditAccountsByClientIdTable.put(createdClient.getId(), new ArrayList<>());
@@ -61,8 +65,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addCreditAccount(int id, CreditAccount account) {
-        Client client = clientsTable.get(id);
+    public boolean addCreditAccount(int id, CreditAccount account) throws NotFoundException {
+        Client client = getClientById(id);
         if (client != null) {
             List<CreditAccount> clientCreditAccounts = creditAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
@@ -72,8 +76,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addPaymentAccount(int id, PaymentAccount account) {
-        Client client = clientsTable.get(id);
+    public boolean addPaymentAccount(int id, PaymentAccount account) throws NotFoundException {
+        Client client = getClientById(id);
         if (client != null) {
             List<PaymentAccount> clientCreditAccounts = paymentAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
@@ -83,13 +87,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<PaymentAccount> getAllPaymentAccountsByClientId(int id) {
-        return paymentAccountsByClientIdTable.get(id);
+    public List<PaymentAccount> getAllPaymentAccountsByClientId(int id) throws NotFoundException {
+        return paymentAccountsByClientIdTable.get(getClientById(id).getId());
     }
 
     @Override
-    public List<CreditAccount> getAllCreditAccountsByClientId(int id) {
-        return creditAccountsByClientIdTable.get(id);
+    public List<CreditAccount> getAllCreditAccountsByClientId(int id) throws NotFoundException {
+        return creditAccountsByClientIdTable.get(getClientById(id).getId());
     }
 
     @Override
@@ -98,16 +102,17 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client getClientById(int id) {
+    public Client getClientById(int id) throws NotFoundException {
         Client client = clientsTable.get(id);
         if (client == null) {
             System.err.println("Client with id " + id + " is not found");
+            throw new NotFoundException(id);
         }
         return client;
     }
 
     @Override
-    public void printClientData(int id, boolean withAccounts) {
+    public void printClientData(int id, boolean withAccounts) throws NotFoundException {
         Client client = getClientById(id);
 
         if (client == null) {
@@ -135,7 +140,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public PaymentAccount getBestPaymentAccount(int id) throws NoPaymentAccount {
+    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccount {
         List<PaymentAccount> paymentAccounts = getAllPaymentAccountsByClientId(id);
         PaymentAccount paymentAccount = paymentAccounts
                 .stream()

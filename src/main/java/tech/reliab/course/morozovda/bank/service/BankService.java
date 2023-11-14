@@ -8,6 +8,7 @@ import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
+import tech.reliab.course.morozovda.bank.exception.NotEnoughMoneyException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.entity.Client;
@@ -62,18 +63,18 @@ public interface BankService {
     public boolean depositMoney(int id, BigDecimal amount) throws NotFoundException;
 
     // Вывести amount денег из банка
-    public boolean withdrawMoney(int id, BigDecimal amount) throws NotFoundException;
+    public boolean withdrawMoney(int id, BigDecimal amount) throws NotFoundException, NotEnoughMoneyException;
 
     // Оформление заявки на кредит
     public boolean approveCredit(Bank bank, CreditAccount account, Employee employee) throws CreditException;
 
     // Возвращает банки, подходящие для выдачи кредита с указанной суммой и
     // длительностью
-    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws CreditException;
+    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws NotFoundException, CreditException;
 
     // Подходит ли банк для выдачи суммы
-    public boolean isBankSuitable(Bank bank, BigDecimal money);
+    public boolean isBankSuitable(Bank bank, BigDecimal money) throws NotFoundException;
 
     // Возвращает список офисов, подходящих для выдачи указанной суммы в банке
-    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money);
+    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) throws NotFoundException;
 }

@@ -33,6 +33,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         Employee newEmployee = new Employee(employee);
+        if (employeesTable.containsKey(newEmployee.getId())) {
+            throw new NotUniqueIdException(newEmployee.getId());
+        }
         employeesTable.put(newEmployee.getId(), newEmployee);
         bankOfficeService.addEmployee(newEmployee.getBankOffice().getId(), newEmployee);
 
@@ -41,8 +44,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public boolean transferEmployee(Employee employee, BankOffice bankOffice) {
-        // TODO: Добавить механизм перевода сотрудника в новый офис
-
         return true;
     }
 
@@ -56,6 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeesTable.get(id);
         if (employee == null) {
             System.err.println("Employee with id " + id + " is not found");
+            throw new NotFoundException(id);
         }
         return employee;
     }

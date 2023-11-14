@@ -42,10 +42,10 @@ public class CreditAccountServiceImpl implements CreditAccountService {
             return null;
         }
 
-        // TODO: Возможно добавление дополнительных механизмов - расчет параметров
-        // кредита и т.п.
-
         CreditAccount newAccount = new CreditAccount(creditAccount);
+        if (creditAccountsTable.containsKey(newAccount.getId())) {
+            throw new NotUniqueIdException(newAccount.getId());
+        }
         creditAccountsTable.put(newAccount.getId(), newAccount);
         clientService.addCreditAccount(newAccount.getClient().getId(), newAccount);
 
@@ -79,10 +79,11 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     }
 
     @Override
-    public CreditAccount getCreditAccountById(int id) {
+    public CreditAccount getCreditAccountById(int id) throws NotFoundException {
         CreditAccount account = creditAccountsTable.get(id);
         if (account == null) {
             System.err.println("Credit account with id " + id + " is not found");
+            throw new NotFoundException(id);
         }
         return account;
     }

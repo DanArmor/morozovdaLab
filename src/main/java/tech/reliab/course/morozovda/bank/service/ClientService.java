@@ -19,9 +19,9 @@ public interface ClientService {
 
     public List<Client> getAllClients();
 
-    public boolean addPaymentAccount(int id, PaymentAccount account) throws NotUniqueIdException;
+    public boolean addPaymentAccount(int id, PaymentAccount account) throws NotFoundException;
 
-    public boolean addCreditAccount(int id, CreditAccount account) throws NotUniqueIdException;
+    public boolean addCreditAccount(int id, CreditAccount account) throws NotFoundException;
 
     public List<PaymentAccount> getAllPaymentAccountsByClientId(int id) throws NotFoundException;
 
@@ -29,5 +29,5 @@ public interface ClientService {
 
     BigDecimal calculateCreditRating(Client client);
 
-    public PaymentAccount getBestPaymentAccount(int id) throws NoPaymentAccount;
+    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccount;
 }

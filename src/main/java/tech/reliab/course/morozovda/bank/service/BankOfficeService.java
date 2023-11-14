@@ -27,7 +27,7 @@ public interface BankOfficeService {
 
     boolean installAtm(int id, BankAtm bankAtm) throws NotFoundException;
 
-    boolean removeAtm(int id, BankAtm bankAtm) throws NotFoundException;
+    boolean removeAtm(int id, BankAtm bankAtm) throws NotFoundException, NotEnoughMoneyException;
 
     boolean depositMoney(BankOffice bankOffice, BigDecimal amount);
 
@@ -37,9 +37,9 @@ public interface BankOfficeService {
 
     boolean removeEmployee(BankOffice bankOffice, Employee employee);
 
-    public boolean isSuitableBankOffice(BankOffice bankOffice, BigDecimal money);
+    public boolean isSuitableBankOffice(BankOffice bankOffice, BigDecimal money) throws NotFoundException;
 
     public List<BankAtm> getSuitableBankAtmInOffice(BankOffice bankOffice, BigDecimal money);
 
-    public List<Employee> getSuitableEmployeeInOffice(BankOffice bankOffice);
+    public List<Employee> getSuitableEmployeeInOffice(BankOffice bankOffice) throws NotFoundException;
 }

@@ -14,6 +14,7 @@ import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
+import tech.reliab.course.morozovda.bank.exception.NotEnoughMoneyException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
@@ -39,13 +40,13 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<BankOffice> getAllOfficesByBankId(int id) {
+    public List<BankOffice> getAllOfficesByBankId(int id) throws NotFoundException {
         Bank bank = getBankById(id);
         if (bank != null) {
             List<BankOffice> bankOffices = officesByBankIdTable.get(id);
             return bankOffices;
         }
-        return new ArrayList<>();
+        throw new NotFoundException(id);
     }
 
     @Override
@@ -64,6 +65,10 @@ public class BankServiceImpl implements BankService {
         calculateInterestRate(newBank);
 
         if (newBank != null) {
+            if (banksTable.containsKey(bank.getId()) || officesByBankIdTable.containsKey(bank.getId())
+                    || clientsByBankIdTable.containsKey(bank.getId())) {
+                throw new NotUniqueIdException(bank.getId());
+            }
             banksTable.put(newBank.getId(), newBank);
             officesByBankIdTable.put(newBank.getId(), new ArrayList<>());
             clientsByBankIdTable.put(newBank.getId(), new ArrayList<>());
@@ -100,10 +105,11 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Bank getBankById(int bankId) {
+    public Bank getBankById(int bankId) throws NotFoundException {
         Bank bank = banksTable.get(bankId);
         if (bank == null) {
             System.err.println("Bank with id " + bankId + " is not found");
+            throw new NotFoundException(bankId);
         }
         return bank;
     }
@@ -284,7 +290,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean withdrawMoney(int id, BigDecimal amount) throws NotFoundException {
+    public boolean withdrawMoney(int id, BigDecimal amount) throws NotFoundException, NotEnoughMoneyException {
         Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot withdraw money, bank is null");
@@ -298,7 +304,7 @@ public class BankServiceImpl implements BankService {
 
         if (bank.getTotalMoney().compareTo(amount) < 0) {
             System.err.println("Error: Bank - cannot withdraw money - bank does not have enough money");
-            return false;
+            throw new NotEnoughMoneyException();
         }
 
         bank.setTotalMoney(bank.getTotalMoney().subtract(amount));
@@ -307,7 +313,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws CreditException {
+    public List<Bank> getBanksSuitable(BigDecimal sum, int countMonth) throws NotFoundException, CreditException {
         List<Bank> banksSuitable = new ArrayList<>();
         for (Bank bank : banksTable.values()) {
             if (isBankSuitable(bank, sum)) {
@@ -323,13 +329,13 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean isBankSuitable(Bank bank, BigDecimal money) {
+    public boolean isBankSuitable(Bank bank, BigDecimal money) throws NotFoundException {
         List<BankOffice> bankOfficeSuitable = getBankOfficeSuitableInBank(bank, money);
         return !bankOfficeSuitable.isEmpty();
     }
 
     @Override
-    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) {
+    public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) throws NotFoundException {
         List<BankOffice> bankOfficesByBank = getAllOfficesByBankId(bank.getId());
         List<BankOffice> suitableBankOffice = new ArrayList<>();
 

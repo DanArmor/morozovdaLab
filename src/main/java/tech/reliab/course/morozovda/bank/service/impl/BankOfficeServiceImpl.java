@@ -9,6 +9,7 @@ import java.util.Map;
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.Employee;
+import tech.reliab.course.morozovda.bank.exception.NotEnoughMoneyException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
@@ -25,7 +26,10 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     private AtmService atmService;
 
     @Override
-    public List<Employee> getAllEmployeesByOfficeId(int id) {
+    public List<Employee> getAllEmployeesByOfficeId(int id) throws NotFoundException {
+        if (!employeesByOfficeIdTable.containsKey(id)) {
+            throw new NotFoundException(id);
+        }
         return employeesByOfficeIdTable.get(id);
     }
 
@@ -45,7 +49,10 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public BankOffice getBankOfficeById(int id) {
+    public BankOffice getBankOfficeById(int id) throws NotFoundException {
+        if (!bankOfficesTable.containsKey(id)) {
+            throw new NotFoundException(id);
+        }
         BankOffice office = bankOfficesTable.get(id);
         if (office == null) {
             System.err.println("Office with id " + id + " is not found");
@@ -54,7 +61,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public void printBankOfficeData(int id) {
+    public void printBankOfficeData(int id) throws NotFoundException {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice == null) {
             return;
@@ -104,10 +111,14 @@ public class BankOfficeServiceImpl implements BankOfficeService {
         }
 
         BankOffice newOffice = new BankOffice(bankOffice);
-        bankOfficesTable.put(bankOffice.getId(), bankOffice);
+        if (bankOfficesTable.containsKey(bankOffice.getId()) || employeesByOfficeIdTable.containsKey(bankOffice.getId())
+                || atmsByOfficeIdTable.containsKey(bankOffice.getId())) {
+            throw new NotUniqueIdException(bankOffice.getId());
+        }
+        bankOfficesTable.put(bankOffice.getId(), newOffice);
         employeesByOfficeIdTable.put(bankOffice.getId(), new ArrayList<>());
         atmsByOfficeIdTable.put(bankOffice.getId(), new ArrayList<>());
-        bankService.addOffice(bankOffice.getBank().getId(), bankOffice);
+        bankService.addOffice(bankOffice.getBank().getId(), newOffice);
 
         return newOffice;
     }
@@ -136,7 +147,8 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean withdrawMoney(BankOffice bankOffice, BigDecimal amount) {
+    public boolean withdrawMoney(BankOffice bankOffice, BigDecimal amount)
+            throws NotFoundException, NotEnoughMoneyException {
         if (bankOffice == null) {
             System.err.println("Error: BankOffice - cannot withdraw money from not existing office");
             return false;
@@ -154,7 +166,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
 
         if (bankOffice.getTotalMoney().compareTo(amount) < 0) {
             System.err.println("Error: BankOffice - cannot withdraw money - office does not have enough money");
-            return false;
+            throw new NotEnoughMoneyException();
         }
 
         bankOffice.setTotalMoney(bankOffice.getTotalMoney().subtract(amount));
@@ -164,7 +176,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean installAtm(int id, BankAtm bankAtm) {
+    public boolean installAtm(int id, BankAtm bankAtm) throws NotFoundException {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice != null && bankAtm != null) {
             if (!bankOffice.getIsAtmPlaceable()) {
@@ -187,7 +199,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean removeAtm(int id, BankAtm bankAtm) {
+    public boolean removeAtm(int id, BankAtm bankAtm) throws NotFoundException, NotEnoughMoneyException {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice != null && bankAtm != null) {
             final int newAtmCountOffice = bankOffice.getAtmCount() - 1;
@@ -209,7 +221,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean addEmployee(int id, Employee employee) {
+    public boolean addEmployee(int id, Employee employee) throws NotFoundException {
         BankOffice bankOffice = getBankOfficeById(id);
         if (bankOffice != null && employee != null) {
             employee.setBankOffice(bankOffice);
@@ -250,7 +262,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public List<Employee> getSuitableEmployeeInOffice(BankOffice bankOffice) {
+    public List<Employee> getSuitableEmployeeInOffice(BankOffice bankOffice) throws NotFoundException {
         List<Employee> employees = getAllEmployeesByOfficeId(bankOffice.getId());
         List<Employee> suitableEmployee = new ArrayList<>();
 
@@ -264,7 +276,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
     }
 
     @Override
-    public boolean isSuitableBankOffice(BankOffice bankOffice, BigDecimal money) {
+    public boolean isSuitableBankOffice(BankOffice bankOffice, BigDecimal money) throws NotFoundException {
         if (bankOffice.getIsWorking() && bankOffice.getIsCashWithdrawalAvailable()
                 && bankOffice.getTotalMoney().compareTo(money) >= 0) {
             List<BankAtm> bankAtmSuitable = getSuitableBankAtmInOffice(bankOffice, money);
