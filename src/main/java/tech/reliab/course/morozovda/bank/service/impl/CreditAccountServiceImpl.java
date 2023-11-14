@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.service.CreditAccountService;
 
@@ -20,7 +22,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
     }
 
     @Override
-    public CreditAccount create(CreditAccount creditAccount) {
+    public CreditAccount create(CreditAccount creditAccount) throws NotFoundException, NotUniqueIdException {
         if (creditAccount == null) {
             return null;
         }

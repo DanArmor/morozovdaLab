@@ -3,11 +3,8 @@ package tech.reliab.course.morozovda.bank;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.Scanner;
-
-import javax.security.auth.login.CredentialException;
 
 import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankAtm;
@@ -17,6 +14,9 @@ import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
@@ -36,7 +36,7 @@ import tech.reliab.course.morozovda.bank.utils.Consts;
 import static tech.reliab.course.morozovda.bank.utils.Consts.*;
 
 public class Main {
-        public static void main(String[] args) {
+        public static void main(String[] args) throws NotFoundException, NotUniqueIdException {
                 Random random = new Random();
                 Scanner scanner = new Scanner(System.in);
                 new Consts();
@@ -239,7 +239,7 @@ public class Main {
                                         // Если платежного счета нет - создадим его
                                         try {
                                                 paymentAccount = clientService.getBestPaymentAccount(clientId);
-                                        } catch (NoSuchElementException e) {
+                                        } catch (NoPaymentAccount e) {
                                                 paymentAccount = paymentAccountService.create(new PaymentAccount(
                                                                 clientService.getClientById(clientId),
                                                                 clientService.getClientById(clientId).getBank(),
@@ -250,11 +250,11 @@ public class Main {
                                                         months,
                                                         amount, new BigDecimal("0"), new BigDecimal("0"), employee,
                                                         paymentAccount));
-                                        if (bankService.approveCredit(bank, null, employee)){
-                                                System.out.println("Credit was approved");        
+                                        if (bankService.approveCredit(bank, null, employee)) {
+                                                System.out.println("Credit was approved");
                                                 System.out.println(creditAccount);
                                         } else {
-                                                System.out.println("Credit was not approved");        
+                                                System.out.println("Credit was not approved");
                                         }
                                 } else if (action.equals("q")) {
                                         break;

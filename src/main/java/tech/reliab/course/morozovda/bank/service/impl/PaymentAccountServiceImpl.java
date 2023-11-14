@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.service.PaymentAccountService;
 
@@ -20,7 +22,7 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
     }
 
     @Override
-    public PaymentAccount create(PaymentAccount paymentAccount) {
+    public PaymentAccount create(PaymentAccount paymentAccount) throws NotFoundException, NotUniqueIdException {
         if (paymentAccount == null) {
             return null;
         }
@@ -101,7 +103,7 @@ public class PaymentAccountServiceImpl implements PaymentAccountService {
     }
 
     @Override
-    public BigDecimal getTotalMoney(int id){
+    public BigDecimal getTotalMoney(int id) {
         PaymentAccount paymentAccount = getPaymentAccountById(id);
         return paymentAccount.getBalance();
     }

@@ -14,6 +14,8 @@ import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
+import tech.reliab.course.morozovda.bank.exception.NotFoundException;
+import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.BankOfficeService;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.ClientService;
@@ -47,7 +49,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public Bank create(Bank bank) {
+    public Bank create(Bank bank) throws NotFoundException, NotUniqueIdException {
         if (bank == null) {
             return null;
         }
@@ -107,7 +109,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public void printBankData(int bankId) {
+    public void printBankData(int bankId) throws NotFoundException {
         Bank bank = getBankById(bankId);
         if (bank == null) {
             return;
@@ -118,16 +120,16 @@ public class BankServiceImpl implements BankService {
         List<BankOffice> offices = officesByBankIdTable.get(bankId);
         if (offices != null) {
             System.out.println("Offices:");
-            offices.forEach((BankOffice office) -> {
+            for (BankOffice office : offices) {
                 bankOfficeService.printBankOfficeData(office.getId());
-            });
+            }
         }
         List<Client> clients = clientsByBankIdTable.get(bankId);
         if (clients != null) {
             System.out.println("Clients:");
-            clients.forEach((Client client) -> {
+            for (Client client : clients) {
                 clientService.printClientData(client.getId(), false);
-            });
+            }
         }
         System.out.println("=====================");
     }
@@ -143,7 +145,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addOffice(int bankId, BankOffice bankOffice) {
+    public boolean addOffice(int bankId, BankOffice bankOffice) throws NotFoundException {
         Bank bank = getBankById(bankId);
         if (bank != null && bankOffice != null) {
             bankOffice.setBank(bank);
@@ -158,7 +160,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean removeOffice(int bankId, BankOffice bankOffice) {
+    public boolean removeOffice(int bankId, BankOffice bankOffice) throws NotFoundException {
         Bank bank = getBankById(bankId);
         int officeIndex = officesByBankIdTable.get(bankId).indexOf(bankOffice);
         if (bank != null && officeIndex >= 0) {
@@ -180,7 +182,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean addClient(int id, Client client) {
+    public boolean addClient(int id, Client client) throws NotFoundException {
         Bank bank = getBankById(id);
         if (bank != null && client != null) {
             client.setBank(bank);
@@ -221,7 +223,8 @@ public class BankServiceImpl implements BankService {
                             .divide(new BigDecimal(account.getMonthCount()));
 
                     if (account.getClient().getMonthlyIncome().compareTo(sumMonthPay) >= 0) {
-                        if (account.getClient().getCreditRating().compareTo(new BigDecimal(5000)) < 0 && bank.getRating() > 50) {
+                        if (account.getClient().getCreditRating().compareTo(new BigDecimal(5000)) < 0
+                                && bank.getRating() > 50) {
                             return false;
                         }
                         account.setEmployee(employee);
@@ -264,7 +267,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean depositMoney(int id, BigDecimal amount) {
+    public boolean depositMoney(int id, BigDecimal amount) throws NotFoundException {
         Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot deposit money to uninitialized bank");
@@ -281,7 +284,7 @@ public class BankServiceImpl implements BankService {
     }
 
     @Override
-    public boolean withdrawMoney(int id, BigDecimal amount) {
+    public boolean withdrawMoney(int id, BigDecimal amount) throws NotFoundException {
         Bank bank = getBankById(id);
         if (bank == null) {
             System.err.println("Error: Bank - cannot withdraw money, bank is null");
