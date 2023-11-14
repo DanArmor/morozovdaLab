@@ -24,6 +24,7 @@ public class Client extends Person {
 
     public Client(String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             BigDecimal creditRating) {
+        super(name, birthDate);
         initWithDefaults();
         this.name = name;
         this.birthdDate = birthDate;
@@ -35,9 +36,7 @@ public class Client extends Person {
 
     public Client(int id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             BigDecimal creditRating) {
-        this.id = id;
-        this.name = name;
-        this.birthdDate = birthDate;
+        super(id, name, birthDate);
         this.placeOfWork = placeOfWork;
         this.monthlyIncome = monthlyIncome;
         this.bank = bank;
