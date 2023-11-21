@@ -14,7 +14,7 @@ import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
-import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccountException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
@@ -237,7 +237,7 @@ public class Main {
                                         // Если платежного счета нет - создадим его
                                         try {
                                                 paymentAccount = clientService.getBestPaymentAccount(clientId);
-                                        } catch (NoPaymentAccount e) {
+                                        } catch (NoPaymentAccountException e) {
                                                 paymentAccount = paymentAccountService.create(new PaymentAccount(
                                                                 clientService.getClientById(clientId),
                                                                 clientService.getClientById(clientId).getBank(),
