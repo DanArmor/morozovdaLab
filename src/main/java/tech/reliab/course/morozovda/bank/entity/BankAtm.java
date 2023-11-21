@@ -89,7 +89,7 @@ public class BankAtm {
                 ",\n address='" + getAddress() + "'" +
                 ",\n status='" + getStatus() + "'" +
                 ",\n bank='" + getBank().getName() + "'" +
-                ",\n bankOffice='" + getBankOffice() + "'" +
+                ",\n bankOffice=" + getBankOffice() +
                 ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
                 ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
                 ",\n totalMoney='" + String.format("%.2f", getTotalMoney()) + "'" +
