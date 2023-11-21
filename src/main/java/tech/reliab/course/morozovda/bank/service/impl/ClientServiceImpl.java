@@ -68,6 +68,8 @@ public class ClientServiceImpl implements ClientService {
         if (client != null) {
             List<CreditAccount> clientCreditAccounts = creditAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
+            client.addAccount(account);
+            client.getBank().addAccount(account);
             return true;
         }
         return false;
@@ -79,6 +81,8 @@ public class ClientServiceImpl implements ClientService {
         if (client != null) {
             List<PaymentAccount> clientCreditAccounts = paymentAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
+            client.addAccount(account);
+            client.getBank().addAccount(account);
             return true;
         }
         return false;

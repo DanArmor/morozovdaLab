@@ -192,29 +192,7 @@ public class BankOfficeServiceImpl implements BankOfficeService {
             List<BankAtm> officeAtms = atmsByOfficeIdTable.get(bankOffice.getId());
             officeAtms.add(bankAtm);
             depositMoney(bankOffice, bankAtm.getTotalMoney());
-
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeAtm(int id, BankAtm bankAtm) throws NotFoundException, NotEnoughMoneyException {
-        BankOffice bankOffice = getBankOfficeById(id);
-        if (bankOffice != null && bankAtm != null) {
-            final int newAtmCountOffice = bankOffice.getAtmCount() - 1;
-            if (newAtmCountOffice < 0) {
-                System.err.println("Error: BankOffice - cannot remove ATM, no ATMs");
-                return false;
-            }
-            bankOffice.setAtmCount(newAtmCountOffice);
-            bankOffice.getBank().setAtmCount(bankOffice.getBank().getAtmCount() - 1);
-            List<BankAtm> officeAtms = atmsByOfficeIdTable.get(bankOffice.getId());
-            officeAtms.remove(bankAtm);
-            bankAtm.setBankOffice(null);
-            bankAtm.setAddress("");
-            bankAtm.setBank(null);
-            withdrawMoney(bankOffice, bankAtm.getTotalMoney());
+            bankOffice.addAtm(bankAtm);
             return true;
         }
         return false;
@@ -228,19 +206,10 @@ public class BankOfficeServiceImpl implements BankOfficeService {
             employee.setBank(bankOffice.getBank());
             List<Employee> officeEmployees = employeesByOfficeIdTable.get(bankOffice.getId());
             officeEmployees.add(employee);
+            bankOffice.addEmployee(employee);
             return true;
         }
         return false;
-    }
-
-    @Override
-    public boolean removeEmployee(BankOffice bankOffice, Employee employee) {
-        // TODO: добавить механизм поиска и удаления работника из офиса и банка
-        if (bankOffice != null && employee != null) {
-            return true;
-        }
-        return false;
-
     }
 
     private List<BankAtm> getAllOfficeAtms(int id) {

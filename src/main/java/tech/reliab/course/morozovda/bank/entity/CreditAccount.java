@@ -88,8 +88,8 @@ public class CreditAccount extends Account {
                 ",\n remainingCreditAmount='" + String.format("%.2f", getRemainingCreditAmount()) + "'" +
                 ",\n montlyPayment='" + String.format("%.2f", getMonthlyPayment()) + "'" +
                 ",\n interestRate='" + String.format("%.2f", getInterestRate()) + "'" +
-                ",\n employee='" + getEmployee() + "'" +
-                ",\n paymentAccount='" + getPaymentAccount() + "'" +
+                ",\n employee=" + getEmployee() +
+                ",\n paymentAccount=" + getPaymentAccount() +
                 "\n}";
     }
 

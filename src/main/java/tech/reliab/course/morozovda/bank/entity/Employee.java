@@ -58,7 +58,7 @@ public class Employee extends Person {
                 ",\n job='" + getJob() + "'" +
                 ",\n bank='" + getBank().getName() + "'" +
                 ",\n isWorkingFromHome='" + isIsWorkingFromHome() + "'" +
-                ",\n bankOffice='" + getBankOffice() + "'" +
+                ",\n bankOffice=" + getBankOffice() +
                 ",\n isCreditAvailable='" + isIsCreditAvailable() + "'" +
                 ",\n salary='" + String.format("%.2f", getSalary()) + "'" +
                 "\n}";

@@ -2,6 +2,8 @@ package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Client extends Person {
     public static final BigDecimal MAX_MONTHLY_INCOME = new BigDecimal("10000");
@@ -9,6 +11,7 @@ public class Client extends Person {
     private BigDecimal monthlyIncome;
     private Bank bank;
     private BigDecimal creditRating;
+    private List<Account> accounts;
 
     public Client() {
         initWithDefaults();
@@ -20,6 +23,7 @@ public class Client extends Person {
         this.monthlyIncome = client.monthlyIncome;
         this.bank = new Bank(client.bank);
         this.creditRating = client.creditRating;
+        this.accounts = client.accounts;
     }
 
     public Client(String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
@@ -37,6 +41,7 @@ public class Client extends Person {
     public Client(int id, String name, LocalDate birthDate, String placeOfWork, BigDecimal monthlyIncome, Bank bank,
             BigDecimal creditRating) {
         super(id, name, birthDate);
+        initWithDefaults();
         this.placeOfWork = placeOfWork;
         this.monthlyIncome = monthlyIncome;
         this.bank = bank;
@@ -86,11 +91,16 @@ public class Client extends Person {
         this.creditRating = creditRating;
     }
 
+    public void addAccount(Account account) {
+        accounts.add(account);
+    }
+
     private void initWithDefaults() {
         placeOfWork = "No place of work";
         monthlyIncome = new BigDecimal("0");
         bank = null;
         creditRating = new BigDecimal("0");
+        accounts = new ArrayList<>();
     }
 
 }

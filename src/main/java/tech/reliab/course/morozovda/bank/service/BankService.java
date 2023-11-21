@@ -41,20 +41,11 @@ public interface BankService {
     // Добавление офиса
     public boolean addOffice(int bankId, BankOffice bankOffice) throws NotFoundException;
 
-    // Удаление офиса
-    public boolean removeOffice(int bankId, BankOffice bankOffice) throws NotFoundException;
-
     // Добавление сотрудника
     public boolean addEmployee(Bank bank, Employee employee);
 
-    // Удаление сотрудника
-    public boolean removeEmployee(Bank bank, Employee employee);
-
     // Добавление клиента
     public boolean addClient(int id, Client client) throws NotFoundException;
-
-    // Удаление клиента
-    public boolean removeClient(Bank bank, Client client);
 
     // Расчет процентной ставки банка
     public BigDecimal calculateInterestRate(Bank bank);

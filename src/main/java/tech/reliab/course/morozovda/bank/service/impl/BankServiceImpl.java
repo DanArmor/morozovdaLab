@@ -83,23 +83,7 @@ public class BankServiceImpl implements BankService {
         if (bank != null && employee != null) {
             employee.setBank(bank);
             bank.setEmployeeCount(bank.getEmployeeCount() + 1);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeEmployee(Bank bank, Employee employee) {
-        if (bank != null && employee != null) {
-            final int newEmployeeCount = bank.getEmployeeCount() - 1;
-
-            if (newEmployeeCount < 0) {
-                System.err.println("Error: Bank - cannot remove employee, no employees");
-                return false;
-            }
-
-            bank.setEmployeeCount(newEmployeeCount);
-
+            bank.addEmployee(employee);
             return true;
         }
         return false;
@@ -161,28 +145,7 @@ public class BankServiceImpl implements BankService {
             bank.setTotalMoney(bank.getTotalMoney().add(bankOffice.getTotalMoney()));
             List<BankOffice> bankOffices = getAllOfficesByBankId(bankId);
             bankOffices.add(bankOffice);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeOffice(int bankId, BankOffice bankOffice) throws NotFoundException {
-        Bank bank = getBankById(bankId);
-        int officeIndex = officesByBankIdTable.get(bankId).indexOf(bankOffice);
-        if (bank != null && officeIndex >= 0) {
-            final int newOfficeCount = bank.getOfficeCount() - 1;
-
-            if (newOfficeCount < 0) {
-                System.err.println("Error: Bank - cannot remove office, no offices");
-                return false;
-            }
-
-            bank.setOfficeCount(newOfficeCount);
-
-            bank.setAtmCount(bank.getAtmCount() - officesByBankIdTable.get(bankId).get(officeIndex).getAtmCount());
-            officesByBankIdTable.get(bankId).remove(officeIndex);
-
+            bank.addOffice(bankOffice);
             return true;
         }
         return false;
@@ -196,22 +159,7 @@ public class BankServiceImpl implements BankService {
             bank.setClientCount(bank.getClientCount() + 1);
             List<Client> clients = clientsByBankIdTable.get(id);
             clients.add(client);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeClient(Bank bank, Client client) {
-        if (bank != null && client != null) {
-            int newClientCount = bank.getClientCount() - 1;
-
-            if (newClientCount < 0) {
-                System.err.println("Error: Bank - cannot remove client, no clients");
-                return false;
-            }
-
-            bank.setClientCount(newClientCount);
+            bank.addClient(client);
             return true;
         }
         return false;
@@ -245,7 +193,7 @@ public class BankServiceImpl implements BankService {
                         account.setDateEnd(dateEnd);
                         return true;
                     } else {
-                        throw new CreditException();
+                        throw new CreditException("Client doesn't have enough montly income");
                     }
                 }
             }
@@ -323,7 +271,7 @@ public class BankServiceImpl implements BankService {
         }
 
         if (banksSuitable.isEmpty()) {
-            throw new CreditException();
+            throw new CreditException("No suitable banks were found");
         }
 
         return banksSuitable;
