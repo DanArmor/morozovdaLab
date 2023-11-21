@@ -4,38 +4,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Consts {
-  public static final List<String> PeopleNames = new ArrayList<>();
-  public static final List<String> CompanyNames = new ArrayList<>();
-
-  public Consts() {
-    PeopleNames.add("Walder");
-    PeopleNames.add("Qyburn");
-    PeopleNames.add("Samwell");
-    PeopleNames.add("Vardis");
-    PeopleNames.add("Vorian");
-    PeopleNames.add("Vylarr");
-    PeopleNames.add("Theon");
-    PeopleNames.add("Ned");
-    PeopleNames.add("Arya");
-    PeopleNames.add("Sansa");
-    PeopleNames.add("Benjen");
-    PeopleNames.add("Edwell");
-    PeopleNames.add("Edgar");
-    PeopleNames.add("Aegon");
-    PeopleNames.add("Aemon");
-    PeopleNames.add("Baelon");
-    PeopleNames.add("Jaehaerys");
-    PeopleNames.add("Maegon");
-    PeopleNames.add("Beric");
-    PeopleNames.add("Baelish");
-    PeopleNames.add("Illyrio");
-
-    CompanyNames.add("Kingsguard");
-    CompanyNames.add("Gold cloaks");
-    CompanyNames.add("Faceless");
-    CompanyNames.add("Yunkai masters");
-    CompanyNames.add("Trade house of Braavos");
-    CompanyNames.add("Brave Companions");
-    CompanyNames.add("Brotherhood Without Banners");
-  }
+  public static final List<String> PeopleNames = new ArrayList<>() {
+    {
+      add("Walder");
+      add("Qyburn");
+      add("Samwell");
+      add("Vardis");
+      add("Vorian");
+      add("Vylarr");
+      add("Theon");
+      add("Ned");
+      add("Arya");
+      add("Sansa");
+      add("Benjen");
+      add("Edwell");
+      add("Edgar");
+      add("Aegon");
+      add("Aemon");
+      add("Baelon");
+      add("Jaehaerys");
+      add("Maegon");
+      add("Beric");
+      add("Baelish");
+      add("Illyrio");
+    }
+  };
+  public static final List<String> CompanyNames = new ArrayList<>() {
+    {
+      add("Kingsguard");
+      add("Gold cloaks");
+      add("Faceless");
+      add("Yunkai masters");
+      add("Trade house of Braavos");
+      add("Brave Companions");
+      add("Brotherhood Without Banners");
+    }
+  };
 }

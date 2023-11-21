@@ -32,14 +32,12 @@ import tech.reliab.course.morozovda.bank.service.impl.EmployeeServiceImpl;
 import tech.reliab.course.morozovda.bank.service.impl.PaymentAccountServiceImpl;
 import tech.reliab.course.morozovda.bank.service.impl.ClientServiceImpl;
 
-import tech.reliab.course.morozovda.bank.utils.Consts;
 import static tech.reliab.course.morozovda.bank.utils.Consts.*;
 
 public class Main {
         public static void main(String[] args) throws NotFoundException, NotUniqueIdException {
                 Random random = new Random();
                 Scanner scanner = new Scanner(System.in);
-                new Consts();
 
                 // Создание сервисов
                 BankService bankService = new BankServiceImpl();
