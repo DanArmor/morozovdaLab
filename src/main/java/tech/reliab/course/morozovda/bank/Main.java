@@ -50,7 +50,7 @@ public class Main {
                 ClientService clientService = new ClientServiceImpl(bankService);
                 bankService.setClientService(clientService);
                 PaymentAccountService paymentAccountService = new PaymentAccountServiceImpl(clientService);
-                CreditAccountService creditAccountService = new CreditAccountServiceImpl(clientService);
+                CreditAccountService creditAccountService = new CreditAccountServiceImpl(clientService, bankService);
 
                 // Создадим банки
                 bankService.create(new Bank("Iron Bank of Braavos"));
