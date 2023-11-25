@@ -1,0 +1,32 @@
+[
+  {
+    "dateStart": "2023-10-01",
+    "dateEnd": "2026-10-01",
+    "monthCount": 36,
+    "creditAmount": 2600,
+    "remainingCreditAmount": 2600,
+    "montlyPayment": 100,
+    "interestRate": 113.167744000,
+    "employee": {},
+    "paymentAccount": {
+      "balance": 1903.85399279866760480217635631561279296875,
+      "id": 3
+    },
+    "id": 52
+  },
+  {
+    "dateStart": "2023-10-01",
+    "dateEnd": "2026-10-01",
+    "monthCount": 36,
+    "creditAmount": 2600,
+    "remainingCreditAmount": 2600,
+    "montlyPayment": 100,
+    "interestRate": 113.167744000,
+    "employee": {},
+    "paymentAccount": {
+      "balance": 1834.58150113697365668485872447490692138671875,
+      "id": 2
+    },
+    "id": 53
+  }
+]
