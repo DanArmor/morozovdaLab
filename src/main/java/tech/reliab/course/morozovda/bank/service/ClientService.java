@@ -6,7 +6,7 @@ import java.util.List;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
-import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccountException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 
@@ -29,5 +29,5 @@ public interface ClientService {
 
     BigDecimal calculateCreditRating(Client client);
 
-    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccount;
+    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccountException;
 }

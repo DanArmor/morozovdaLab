@@ -1,25 +1,44 @@
 package tech.reliab.course.morozovda.bank.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.stream.JsonReader;
+
+import tech.reliab.course.morozovda.bank.entity.Bank;
+import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
+import tech.reliab.course.morozovda.bank.exception.AccountTransferException;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccountException;
+import tech.reliab.course.morozovda.bank.exception.ExportException;
 import tech.reliab.course.morozovda.bank.exception.NotEnoughMoneyException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.ClientService;
+import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.CreditAccountService;
+import tech.reliab.course.morozovda.bank.utils.LocalDateAdapter;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
 
     private final Map<Integer, CreditAccount> creditAccountsTable = new HashMap<>();
     private final ClientService clientService;
+    private final BankService bankService;
 
-    public CreditAccountServiceImpl(ClientService clientService) {
+    public CreditAccountServiceImpl(ClientService clientService, BankService bankService) {
         this.clientService = clientService;
+        this.bankService = bankService;
     }
 
     @Override
@@ -89,4 +108,65 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         return account;
     }
 
+    @Override
+    public boolean importAccountsTxtAndTransferToBank(String fileName, int newBankId)
+            throws AccountTransferException {
+        File file = new File(fileName);
+        if (!file.exists())
+            throw new AccountTransferException("File not found");
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .setPrettyPrinting()
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+        JsonReader reader = null;
+
+        try {
+            reader = new JsonReader(new FileReader(fileName));
+        } catch (FileNotFoundException e) {
+            throw new AccountTransferException(e.toString());
+        }
+
+        CreditAccount[] accountsArr = gson.fromJson(reader, CreditAccount[].class);
+        List<CreditAccount> accounts = Arrays.asList(accountsArr);
+
+        for (CreditAccount a : accounts) {
+            CreditAccount creditAccount = getCreditAccountById(a.getId());
+            if (creditAccount.getBank().getId() == newBankId) {
+                System.out.println("Account with id: " + creditAccount.getId() + " already belongs to the given bank!");
+            } else {
+                Bank newBank = bankService.getBankById(newBankId);
+                creditAccount.setBank(newBank);
+                creditAccount.getPaymentAccount().setBank(newBank);
+            }
+
+            Client client = clientService.getClientById(creditAccount.getClient().getId());
+            if (client.getBank().getId() != newBankId)
+                bankService.transferClient(client, newBankId);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean exportClientAccountsToTxt(int clientId, int bankId) throws ExportException {
+        List<CreditAccount> creditAccounts = clientService.getAllCreditAccountsByClientId(clientId);
+
+        if (creditAccounts.size() == 0)
+            throw new ExportException("No credit accounts");
+        try {
+            PrintWriter file = new PrintWriter("out.txt");
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .setPrettyPrinting()
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .create();
+            file.println(gson.toJson(creditAccounts));
+            file.close();
+            return true;
+        } catch (FileNotFoundException e) {
+            throw new ExportException(e.toString());
+        }
+    }
 }

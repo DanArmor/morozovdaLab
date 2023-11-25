@@ -16,7 +16,6 @@ public class BankAtm {
     private Status status;
     private Bank bank;
     private BankOffice bankOffice;
-    private Employee employee;
     private boolean isCashWithdrawalAvailable;
     private boolean isCashDepositAvailable;
     private BigDecimal totalMoney;
@@ -33,7 +32,6 @@ public class BankAtm {
         this.status = bankAtm.status;
         this.bank = new Bank(bankAtm.bank);
         this.bankOffice = new BankOffice(bankAtm.bankOffice);
-        this.employee = new Employee(bankAtm.employee);
         this.isCashWithdrawalAvailable = bankAtm.isCashWithdrawalAvailable;
         this.isCashDepositAvailable = bankAtm.isCashDepositAvailable;
         this.totalMoney = bankAtm.totalMoney;
@@ -62,7 +60,6 @@ public class BankAtm {
         this.status = status;
         this.bank = bank;
         this.bankOffice = bankOffice;
-        this.employee = employee;
         this.isCashWithdrawalAvailable = isCashWithdrawalAvailable;
         this.isCashDepositAvailable = isCashDepositAvailable;
         this.totalMoney = totalMoney;
@@ -78,7 +75,6 @@ public class BankAtm {
         this.status = status;
         this.bank = bank;
         this.bankOffice = bankOffice;
-        this.employee = employee;
         this.isCashWithdrawalAvailable = isCashWithdrawalAvailable;
         this.isCashDepositAvailable = isCashDepositAvailable;
         this.totalMoney = totalMoney;
@@ -93,8 +89,7 @@ public class BankAtm {
                 ",\n address='" + getAddress() + "'" +
                 ",\n status='" + getStatus() + "'" +
                 ",\n bank='" + getBank().getName() + "'" +
-                ",\n bankOffice='" + getBankOffice() + "'" +
-                ",\n employee='" + getEmployee() + "'" +
+                ",\n bankOffice=" + getBankOffice() +
                 ",\n isCashWithdrawalAvailable='" + isIsCashWithdrawalAvailable() + "'" +
                 ",\n isCashDepositAvailable='" + isIsCashDepositAvailable() + "'" +
                 ",\n totalMoney='" + String.format("%.2f", getTotalMoney()) + "'" +
@@ -150,14 +145,6 @@ public class BankAtm {
         this.bankOffice = bankOffice;
     }
 
-    public Employee getEmployee() {
-        return this.employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
     public boolean isIsCashWithdrawalAvailable() {
         return this.isCashWithdrawalAvailable;
     }
@@ -204,7 +191,6 @@ public class BankAtm {
         status = Status.NOT_WORKING;
         bank = null;
         bankOffice = null;
-        employee = null;
         isCashWithdrawalAvailable = false;
         isCashDepositAvailable = false;
         totalMoney = new BigDecimal("0");

@@ -13,8 +13,10 @@ import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.Employee;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.AccountTransferException;
 import tech.reliab.course.morozovda.bank.exception.CreditException;
-import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccountException;
+import tech.reliab.course.morozovda.bank.exception.ExportException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.AtmService;
@@ -50,7 +52,7 @@ public class Main {
                 ClientService clientService = new ClientServiceImpl(bankService);
                 bankService.setClientService(clientService);
                 PaymentAccountService paymentAccountService = new PaymentAccountServiceImpl(clientService);
-                CreditAccountService creditAccountService = new CreditAccountServiceImpl(clientService);
+                CreditAccountService creditAccountService = new CreditAccountServiceImpl(clientService, bankService);
 
                 // Создадим банки
                 bankService.create(new Bank("Iron Bank of Braavos"));
@@ -180,6 +182,9 @@ public class Main {
                                 System.out.println("b - check bank data by bank id");
                                 System.out.println("c - check client data by client id");
                                 System.out.println("t - take credit");
+                                System.out.println("e - export client accounts by bank id to .txt file");
+                                System.out.println(
+                                                "i - import client accounts from .txt file and transfer them to the given bank");
                                 System.out.println("q - quit program");
 
                                 String action = scanner.nextLine();
@@ -237,7 +242,7 @@ public class Main {
                                         // Если платежного счета нет - создадим его
                                         try {
                                                 paymentAccount = clientService.getBestPaymentAccount(clientId);
-                                        } catch (NoPaymentAccount e) {
+                                        } catch (NoPaymentAccountException e) {
                                                 paymentAccount = paymentAccountService.create(new PaymentAccount(
                                                                 clientService.getClientById(clientId),
                                                                 clientService.getClientById(clientId).getBank(),
@@ -254,12 +259,50 @@ public class Main {
                                         } else {
                                                 System.out.println("Credit was not approved");
                                         }
+                                } else if (action.equals("e")) {
+                                        System.out.println("Available clients:");
+                                        for (Client client : clientService.getAllClients()) {
+                                                System.out.println("id: " + client.getId() + " - " + client.getName());
+                                        }
+
+                                        System.out.println("Enter client id:");
+                                        int clientId = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        System.out.println("Enter bank id:");
+                                        int bankId = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        boolean isOk = creditAccountService.exportClientAccountsToTxt(clientId,
+                                                        bankId);
+
+                                        if (isOk) {
+                                                System.out.println(
+                                                                "Export done");
+                                        } else {
+                                                System.out.println("Export operation was not done due to errors");
+                                        }
+                                } else if (action.equals("i")) {
+                                        System.out.println("Enter file name:");
+                                        String fileName = scanner.nextLine();
+
+                                        System.out.println("Enter new bank id:");
+                                        int newBankId = scanner.nextInt();
+                                        scanner.nextLine();
+
+                                        boolean isOk = creditAccountService
+                                                        .importAccountsTxtAndTransferToBank(fileName, newBankId);
+                                        if (isOk) {
+                                                System.out.println("Import done");
+                                        } else {
+                                                System.out.println("Import operation was not done due to errors");
+                                        }
                                 } else if (action.equals("q")) {
                                         break;
                                 } else {
                                         System.out.println("Error: unknown action. Please, try again");
                                 }
-                        } catch (CreditException e) {
+                        } catch (CreditException | ExportException | AccountTransferException e) {
                                 System.err.println(e.getMessage());
                         }
                 }

@@ -3,6 +3,7 @@ package tech.reliab.course.morozovda.bank.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+
 import tech.reliab.course.morozovda.bank.entity.Bank;
 import tech.reliab.course.morozovda.bank.entity.BankOffice;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
@@ -41,20 +42,11 @@ public interface BankService {
     // Добавление офиса
     public boolean addOffice(int bankId, BankOffice bankOffice) throws NotFoundException;
 
-    // Удаление офиса
-    public boolean removeOffice(int bankId, BankOffice bankOffice) throws NotFoundException;
-
     // Добавление сотрудника
     public boolean addEmployee(Bank bank, Employee employee);
 
-    // Удаление сотрудника
-    public boolean removeEmployee(Bank bank, Employee employee);
-
     // Добавление клиента
     public boolean addClient(int id, Client client) throws NotFoundException;
-
-    // Удаление клиента
-    public boolean removeClient(Bank bank, Client client);
 
     // Расчет процентной ставки банка
     public BigDecimal calculateInterestRate(Bank bank);
@@ -77,4 +69,7 @@ public interface BankService {
 
     // Возвращает список офисов, подходящих для выдачи указанной суммы в банке
     public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) throws NotFoundException;
+
+    // Переводит клиента в другой банк
+    public boolean transferClient(Client client, int newBankId);
 }

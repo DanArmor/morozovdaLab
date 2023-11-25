@@ -11,7 +11,7 @@ import java.util.Map;
 import tech.reliab.course.morozovda.bank.entity.Client;
 import tech.reliab.course.morozovda.bank.entity.CreditAccount;
 import tech.reliab.course.morozovda.bank.entity.PaymentAccount;
-import tech.reliab.course.morozovda.bank.exception.NoPaymentAccount;
+import tech.reliab.course.morozovda.bank.exception.NoPaymentAccountException;
 import tech.reliab.course.morozovda.bank.exception.NotFoundException;
 import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.BankService;
@@ -68,6 +68,8 @@ public class ClientServiceImpl implements ClientService {
         if (client != null) {
             List<CreditAccount> clientCreditAccounts = creditAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
+            client.addAccount(account);
+            client.getBank().addAccount(account);
             return true;
         }
         return false;
@@ -79,6 +81,8 @@ public class ClientServiceImpl implements ClientService {
         if (client != null) {
             List<PaymentAccount> clientCreditAccounts = paymentAccountsByClientIdTable.get(id);
             clientCreditAccounts.add(account);
+            client.addAccount(account);
+            client.getBank().addAccount(account);
             return true;
         }
         return false;
@@ -138,12 +142,12 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccount {
+    public PaymentAccount getBestPaymentAccount(int id) throws NotFoundException, NoPaymentAccountException {
         List<PaymentAccount> paymentAccounts = getAllPaymentAccountsByClientId(id);
         PaymentAccount paymentAccount = paymentAccounts
                 .stream()
                 .min(Comparator.comparing(PaymentAccount::getBalance))
-                .orElseThrow(NoPaymentAccount::new);
+                .orElseThrow(NoPaymentAccountException::new);
         return paymentAccount;
     }
 
