@@ -3,15 +3,26 @@ package tech.reliab.course.morozovda.bank.entity;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import com.google.gson.annotations.Expose;
+
 public class CreditAccount extends Account {
+    @Expose(serialize = true)
     private LocalDate dateStart;
+    @Expose(serialize = true)
     private LocalDate dateEnd;
+    @Expose(serialize = true)
     private int monthCount;
+    @Expose(serialize = true)
     private BigDecimal creditAmount;
+    @Expose(serialize = true)
     private BigDecimal remainingCreditAmount;
+    @Expose(serialize = true)
     private BigDecimal montlyPayment;
+    @Expose(serialize = true)
     private BigDecimal interestRate;
+    @Expose(serialize = true)
     private Employee employee;
+    @Expose(serialize = true)
     private PaymentAccount paymentAccount;
 
     public CreditAccount() {

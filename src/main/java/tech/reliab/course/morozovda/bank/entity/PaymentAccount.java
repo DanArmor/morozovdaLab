@@ -2,7 +2,10 @@ package tech.reliab.course.morozovda.bank.entity;
 
 import java.math.BigDecimal;
 
+import com.google.gson.annotations.Expose;
+
 public class PaymentAccount extends Account {
+    @Expose(serialize = true)
     private BigDecimal balance;
 
     public PaymentAccount() {
