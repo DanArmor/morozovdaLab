@@ -154,7 +154,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         List<CreditAccount> creditAccounts = clientService.getAllCreditAccountsByClientId(clientId);
 
         if (creditAccounts.size() == 0)
-            throw new NoPaymentAccountException();
+            throw new ExportException("No credit accounts");
         try {
             PrintWriter file = new PrintWriter("out.txt");
             Gson gson = new GsonBuilder()
