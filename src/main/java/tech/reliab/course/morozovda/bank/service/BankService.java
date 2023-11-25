@@ -68,4 +68,7 @@ public interface BankService {
 
     // Возвращает список офисов, подходящих для выдачи указанной суммы в банке
     public List<BankOffice> getBankOfficeSuitableInBank(Bank bank, BigDecimal money) throws NotFoundException;
+
+    // Переводит клиента в другой банк
+    public boolean transferClient(Client client, int newBankId);
 }

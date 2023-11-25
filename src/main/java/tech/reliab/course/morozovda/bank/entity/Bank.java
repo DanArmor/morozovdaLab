@@ -157,6 +157,10 @@ public class Bank {
         clients.add(client);
     }
 
+    public void removeClient(Client client) {
+        clients.remove(clients.indexOf(client));
+    }
+
     public void addOffice(BankOffice bankOffice) {
         for(BankAtm bankAtm : bankOffice.getAtms()) {
             addAtm(bankAtm);

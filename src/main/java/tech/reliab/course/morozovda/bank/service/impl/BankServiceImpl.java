@@ -174,7 +174,8 @@ public class BankServiceImpl implements BankService {
             if (bank.getTotalMoney().compareTo(sum) >= 0) {
                 if (employee.isIsCreditAvailable()) {
                     BigDecimal sumMonthPay = sum
-                            .multiply((bank.getInterestRate().divide(new BigDecimal(100), MathContext.DECIMAL128).add(new BigDecimal(1))))
+                            .multiply((bank.getInterestRate().divide(new BigDecimal(100), MathContext.DECIMAL128)
+                                    .add(new BigDecimal(1))))
                             .divide(new BigDecimal(account.getMonthCount()), MathContext.DECIMAL128);
 
                     if (account.getClient().getMonthlyIncome().compareTo(sumMonthPay) >= 0) {
@@ -212,10 +213,12 @@ public class BankServiceImpl implements BankService {
             final BigDecimal maxBankInterestRateMargin = Bank.MAX_INTEREST_RATE.subtract(centralBankInterestRate);
             final BigDecimal bankInterestRateMargin = (BigRandom.between(new BigDecimal("0.0"), new BigDecimal("1.0"))
                     .multiply(maxBankInterestRateMargin))
-                    .multiply((new BigDecimal("110").subtract(rating).divide(new BigDecimal("100"), MathContext.DECIMAL128)));
+                    .multiply((new BigDecimal("110").subtract(rating).divide(new BigDecimal("100"),
+                            MathContext.DECIMAL128)));
             final BigDecimal interestRate = centralBankInterestRate.add(bankInterestRateMargin);
 
-            bank.setInterestRate(interestRate.multiply(BigRandom.between(new BigDecimal(2), new BigDecimal(10)), MathContext.DECIMAL128));
+            bank.setInterestRate(interestRate.multiply(BigRandom.between(new BigDecimal(2), new BigDecimal(10)),
+                    MathContext.DECIMAL128));
             return interestRate;
         }
         return new BigDecimal("0");
@@ -295,5 +298,22 @@ public class BankServiceImpl implements BankService {
         }
 
         return suitableBankOffice;
+    }
+
+    @Override
+    public boolean transferClient(Client client, int newBankId) {
+        Bank curBank = getBankById(client.getBank().getId());
+        Bank newBank = getBankById(newBankId);
+        if (newBank != null && curBank != null && client != null) {
+            List<Client> clients = clientsByBankIdTable.get(client.getBank().getId());
+            clients.remove(clients.indexOf(client));
+            curBank.removeClient(client);
+
+            client.setBank(newBank);
+            clients.add(client);
+            newBank.addClient(client);
+            return true;
+        }
+        return false;
     }
 }
