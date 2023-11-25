@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import tech.reliab.course.morozovda.bank.exception.NotUniqueIdException;
 import tech.reliab.course.morozovda.bank.service.ClientService;
 import tech.reliab.course.morozovda.bank.service.BankService;
 import tech.reliab.course.morozovda.bank.service.CreditAccountService;
+import tech.reliab.course.morozovda.bank.utils.LocalDateAdapter;
 
 public class CreditAccountServiceImpl implements CreditAccountService {
 
@@ -114,6 +116,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
             throw new AccountTransferException("File not found");
 
         Gson gson = new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .setPrettyPrinting()
                 .excludeFieldsWithoutExposeAnnotation()
                 .create();
@@ -155,6 +158,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         try {
             PrintWriter file = new PrintWriter("out.txt");
             Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                     .setPrettyPrinting()
                     .excludeFieldsWithoutExposeAnnotation()
                     .create();
