@@ -146,6 +146,7 @@ public class CreditAccountServiceImpl implements CreditAccountService {
         return true;
     }
 
+    @Override
     public boolean exportClientAccountsToTxt(int clientId, int bankId) throws ExportException {
         List<CreditAccount> creditAccounts = clientService.getAllCreditAccountsByClientId(clientId);
 
